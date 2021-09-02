@@ -5,10 +5,15 @@ import SimpleTabs from "./Tabs"
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import TextField from '@material-ui/core/TextField';
+import axios from "axios";
 
 const initialState = []
 
 const GroupBill = () => {
+    const [requestHeaders, setRequestHeaders] = useState()
+    const billNameRef = useRef("")
+    const [bill, setBill] = useState({ id: null, bill_name: "" })
+    const [billNameError, setBillNameError] =useState(false)
     const [people, setPeople] = useState(initialState)
     const [taxRate, setTaxRate] = useState(0.08875)
     const [tipRate, setTipRate] = useState(.18)
@@ -18,17 +23,45 @@ const GroupBill = () => {
     const [addPersonPlaceholder, setAddPersonPlaceholder] = useState("add new person")
 
     useEffect(() => {
-        const updatedPeople = people.map(person => {
-            let oldTip = person['tip']
-            let newTip = Math.round(100*(person['subtotal']) * tipRate)/100
-            person['tip'] = newTip
-            person['total'] = Math.round(100*(person['total'] - oldTip + newTip))/100
-            return person
-        })
-
-        setPeople(updatedPeople)
-
+        setRequestHeaders({ headers: { 'Authorization': localStorage.getItem("token") } })
+        updatePeople()
     }, [tipRate])
+
+    const handleNewBillInitiation = async (event) => {
+        event.preventDefault()
+        billNameRef.current.value === "" ? setBillNameError(true) : setBillNameError(false)
+        const newBill = { bill: { bill_name: billNameRef.current.value } }
+        try {
+            let response = await axios.post("http://localhost:3000/api/bills", newBill, requestHeaders)
+            let data = response.data
+            console.log(data)
+            setBill({id: data.id, bill_name: data.bill_name})
+        } catch (error) {
+            console.error(error)
+        }           
+    }
+
+    const handleNewPersonSubmit = (event) => {
+        event.preventDefault()
+        if (newPersonRef.current.value === "") {
+            setNewPersonError(true)
+            return
+        }
+        let newPerson = {
+            id: currentId,
+            name: newPersonRef.current.value,
+            items: [],
+            subtotal: 0,
+            tax: 0,
+            tip: 0,
+            total: 0
+        }
+        setPeople(prevState => [...prevState, newPerson])
+        setCurrentId(prevState => prevState +=1)
+        newPersonRef.current.value = ""
+        setNewPersonError(false)
+        setAddPersonPlaceholder("add another person")
+    }
 
     const addItemToPerson = (name, price, personId) => {
         console.log(`adding ${name} to person`)
@@ -41,6 +74,18 @@ const GroupBill = () => {
             qty: 1
         })
         updateTotals(currentPerson[0], currentPersonIndex, price)
+    }
+
+    const updatePeople = () => {
+        const updatedPeope = people.map(person => {
+            let oldTip = person['tip']
+            let newTip = Math.round(100*(person['subtotal']) * tipRate)/100
+            person['tip'] = newTip
+            person['total'] = Math.round(100*(person['total'] - oldTip + newTip))/100
+            return person
+        })
+
+        setPeople(updatedPeope)
     }
 
     const incrementItemQuantity = (item, personId) => {
@@ -95,28 +140,6 @@ const GroupBill = () => {
         })
     }
 
-    const handleNewPersonSubmit = (event) => {
-        event.preventDefault()
-        if (newPersonRef.current.value === "") {
-            setNewPersonError(true)
-            return
-        }
-        let newPerson = {
-            id: currentId,
-            name: newPersonRef.current.value,
-            items: [],
-            subtotal: 0,
-            tax: 0,
-            tip: 0,
-            total: 0
-        }
-        setPeople(prevState => [...prevState, newPerson])
-        setCurrentId(prevState => prevState +=1)
-        newPersonRef.current.value = ""
-        setNewPersonError(false)
-        setAddPersonPlaceholder("add another person")
-    }
-
     const eliminateTax = () => {
         // console.log('eliminating tax')
         setTaxRate(0)
@@ -160,24 +183,46 @@ const GroupBill = () => {
         </div>
     )
 
+    let newPersonUI = (
+        <div className={styles.newPersonContainer}>
+            <form onSubmit={handleNewPersonSubmit} >
+                <input 
+                    type="text" 
+                    name="name" 
+                    placeholder={addPersonPlaceholder} 
+                    className={`${styles.formInputs} ${newPersonError ? styles.inputError : ""}`} 
+                    ref={newPersonRef} 
+                />
+                <input type="submit" value="Add" className={styles.formSubmit}/>
+            </form>
+        </div>
+    )
+
+    let newBillFormUI = (
+        <div className={styles.newPersonContainer}>
+            <form onSubmit={handleNewBillInitiation} >
+                <input 
+                    type="text" 
+                    name="billName" 
+                    placeholder="bill name"
+                    className={`${styles.formInputs} ${billNameError ? styles.inputError : ""}`} 
+                    ref={billNameRef} 
+                />
+                <input type="submit" value="Add" className={styles.formSubmit}/>
+            </form>
+        </div>
+    )
+
     return (
         <>
             <div style={{textAlign: 'center'}}>
-                <img src='./split_logo.png' alt='logo' style={{width: '50%'}}/>
-            </div>
-            <div className={styles.newPersonContainer}>
-                <form onSubmit={handleNewPersonSubmit} >
-                    <input 
-                        type="text" 
-                        name="name" 
-                        placeholder={addPersonPlaceholder} 
-                        className={`${styles.formInputs} ${newPersonError ? styles.inputError : ""}`} 
-                        ref={newPersonRef} 
-                    />
-                    <input type="submit" value="Add" className={styles.formSubmit}/>
-                </form>
+                
+                <img src='../split_logo.png' alt='logo' style={{width: '50%'}}/>
             </div>
 
+            {newBillFormUI}
+
+            {billNameRef.current.value != "" && newPersonUI}
             {people.length > 0 && tabsUi}
             {people.length > 0 && tipUi}
         </>

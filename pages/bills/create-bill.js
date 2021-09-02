@@ -1,8 +1,9 @@
 import { useContext, useEffect } from "react"
 import { useRouter } from 'next/router'
-import Link from 'next/link'
+// import AuthenticationContext from "../../store/authentication-store"
+import GroupBill from "../../components/GroupBill"
 
-const Bills = () => {
+const CreateBill = () => {
     const router = useRouter()
 
     useEffect(() => {
@@ -13,13 +14,9 @@ const Bills = () => {
 
     return (
         <div>
-            <button>
-                <Link href="/bills/create-bill">
-                    New Bill
-                </Link>
-            </button>
+            <GroupBill />
         </div>
     )
 }
 
-export default Bills
+export default CreateBill
