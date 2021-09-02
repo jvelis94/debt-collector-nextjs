@@ -1,11 +1,14 @@
-import { AuthenticationContextProvider } from '../store/authentication-store'
+import { useContext, useEffect } from 'react';
+import AuthenticationContext, { AuthenticationContextProvider, ProtectRoutes } from '../store/authentication-store'
 import '../styles/globals.css'
 
 
-function MyApp({ Component, pageProps }) {
+
+const MyApp = ({ Component, pageProps }) => {
+
   return (
     <AuthenticationContextProvider>
-      <Component {...pageProps} />
+        <Component {...pageProps} />
     </AuthenticationContextProvider>
   )
 }

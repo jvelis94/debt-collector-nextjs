@@ -15,6 +15,7 @@ export default function Home() {
       </Head>
       <div className={styles.container}>
         <AccessApp />
+        {/* <input type='button' onClick={ctx.handleLogOut}/> */}
       </div>
 
       

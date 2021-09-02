@@ -3,15 +3,18 @@ import Button from '@material-ui/core/Button';
 import styles from './AccessApp.module.css'
 import { useContext, useRef } from 'react';
 import AuthenticationContext from '../../store/authentication-store';
+import { useRouter } from 'next/router'
 
 const Login = (props) => {
+    const router = useRouter()
     const ctx = useContext(AuthenticationContext)
     const emailRef = useRef()
     const passwordRef = useRef()
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        ctx.handleAppAccess("login", emailRef.current.value, passwordRef.current.value)
+        await ctx.handleAppAccess("login", emailRef.current.value, passwordRef.current.value)
+        router.push('/bills')
     }
 
     return (
@@ -27,7 +30,7 @@ const Login = (props) => {
                     Login
                 </Button>
             </div>
-            <input type='button' onClick={ctx.handleLogOut}/>
+            
         </form>
     )
 }

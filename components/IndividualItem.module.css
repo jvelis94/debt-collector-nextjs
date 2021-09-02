@@ -1,0 +1,36 @@
+.itemFlex {
+    display: grid;
+    grid-template-columns: 1fr 7fr 2fr 2fr;
+    align-items: center;
+}
+
+.centerMoneyQuantity {
+    text-align: center;
+}
+
+.itemsHeaders {
+    display: grid;
+    grid-template-columns: 1fr 7fr 2fr 2fr;
+    background-color: aliceblue;
+    margin-top: 12px;
+}
+
+.centerActionItems {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.personalBillContainer {
+    padding: 24px;
+}
+
+/* .billDetailsContainer {
+    padding:
+} */
+
+.nameAndShareDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

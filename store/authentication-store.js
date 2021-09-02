@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState, useCallback, useContext, useReduce
 import axios from "axios";
 
 const AuthenticationContext = React.createContext({
-    isLoggedIn: false,
     handleAppAccess: (email, password) => {},
     handleLogOut: () => {}
 });
@@ -13,15 +12,6 @@ export const AuthenticationContextProvider = (props) => {
     const loginUrl = "http://localhost:3000/users/sign_in"
     const registerUrl = "http://localhost:3000/users"
     const logoutUrl = "http://localhost:3000/users/sign_out"
-    
-
-    // useEffect(() => {
-    //     const storedUserLoggedInInformation = localStorage.getItem('isLoggedIn');
-    
-    //     if (storedUserLoggedInInformation === '1') {
-    //       setIsLoggedIn(true);
-    //     }
-    // }, []);
 
     const handleAppAccess = async (type, email, password) => {
         console.log(type)
@@ -29,7 +19,6 @@ export const AuthenticationContextProvider = (props) => {
         const user = { "user": { "email": email, "password": password }}
         try {
             let response = await axios.post(accessUrl, user)
-            console.log(response.headers.authorization)
             localStorage.setItem("token", response.headers.authorization)
         } catch (error) {
             console.error(error)
@@ -37,16 +26,9 @@ export const AuthenticationContextProvider = (props) => {
     }
 
     const handleLogOut = async () => {
-        // console.log('logging out')
-        console.log(localStorage.token)
-        // try {
-        //     let response = await axios.delete(logoutUrl, {headers: {'Authorization': `${localStorage.token}`}})
-        //     console.log(response)
-        // } catch (error) {
-        //     console.error(error)
-        // }
+        console.log('logging out')
         try {
-            let response = await axios.get(" http://localhost:3000/api/users", {headers: {'Authorization': `${localStorage.token}`}})
+            let response = await axios.delete(logoutUrl, {headers: {'Authorization': `${localStorage.token}`}})
             console.log(response)
         } catch (error) {
             console.error(error)
@@ -58,7 +40,6 @@ export const AuthenticationContextProvider = (props) => {
     return (
         <AuthenticationContext.Provider
             value={{
-                isLoggedIn: isLoggedIn,
                 handleAppAccess: handleAppAccess,
                 handleLogOut: handleLogOut
             }}

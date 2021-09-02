@@ -1,0 +1,50 @@
+.formInputs {
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #c5c5c5;
+    padding: 4px;
+}
+
+.formInputs:focus {
+    outline: none !important;
+    border: 1px solid #2999D4;
+    box-shadow: 0 0 2px #2999D4; 
+}
+
+.formInputs::placeholder, .formInputs[type=text] {
+    padding-left: 4px;
+}
+
+.centerActionItems {
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2999D4;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+}
+
+.newPersonContainer {
+    text-align: center;
+}
+
+.formSubmit {
+    background-color: #2999D4;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-size: small;
+    padding: 4px 12px;
+    margin-left: 4px;
+    font-weight: bolder;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.inputError {
+    border: 1px solid red;
+    box-shadow: 0 0 2px red; 
+}

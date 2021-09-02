@@ -1,0 +1,23 @@
+.totals {
+    display: grid;
+    grid-template-columns: 10fr 2fr;
+}
+
+.ultimateTotal {
+    font-weight: bolder;
+}
+
+.spanCenter {
+    text-align: center;
+}
+
+.taxButton {
+    margin-left: 4px;
+    border-radius: 10px;
+    border: none;
+    padding: 4px 8px;
+    font-weight: bold;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
