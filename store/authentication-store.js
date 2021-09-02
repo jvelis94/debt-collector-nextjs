@@ -29,7 +29,7 @@ export const AuthenticationContextProvider = (props) => {
         console.log('logging out')
         try {
             let response = await axios.delete(logoutUrl, {headers: {'Authorization': `${localStorage.token}`}})
-            console.log(response)
+            localStorage.removeItem('token');
         } catch (error) {
             console.error(error)
         }
