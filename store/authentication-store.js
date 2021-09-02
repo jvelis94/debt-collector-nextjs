@@ -3,7 +3,8 @@ import axios from "axios";
 
 const AuthenticationContext = React.createContext({
     handleAppAccess: (email, password) => {},
-    handleLogOut: () => {}
+    handleLogOut: () => {},
+    userToken: ""
 });
 
 
@@ -12,6 +13,7 @@ export const AuthenticationContextProvider = (props) => {
     const loginUrl = "http://localhost:3000/users/sign_in"
     const registerUrl = "http://localhost:3000/users"
     const logoutUrl = "http://localhost:3000/users/sign_out"
+    const [userToken, setUserToken] = useState("")
 
     const handleAppAccess = async (type, email, password) => {
         console.log(type)
@@ -20,6 +22,7 @@ export const AuthenticationContextProvider = (props) => {
         try {
             let response = await axios.post(accessUrl, user)
             localStorage.setItem("token", response.headers.authorization)
+            setUserToken(localStorage.token)
         } catch (error) {
             console.error(error)
         }
@@ -41,7 +44,8 @@ export const AuthenticationContextProvider = (props) => {
         <AuthenticationContext.Provider
             value={{
                 handleAppAccess: handleAppAccess,
-                handleLogOut: handleLogOut
+                handleLogOut: handleLogOut,
+                userToken: userToken
             }}
         >
             {props.children}
