@@ -2,21 +2,47 @@ import styles from './IndividualItem.module.css'
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ClearIcon from '@material-ui/icons/Clear';
+import axios from 'axios'
+import { useCookies } from 'react-cookie';
+import { useState } from 'react';
 
 
 const IndividualItem = (props) => {
+    const [cookies, setCookie, removeCookie] = useCookies([]);
     const billItem = props.billItem
+    const [quantity, setQuantity] = useState(billItem.quantity)
 
-    const incrementQty = () => {
-        props.incrementItemQuantity(billItem.name, props.billRecipientId)
+
+    const incrementQty = async () => {
+        const response = await axios({ method: 'patch', 
+            url: `http://localhost:3000/api/bills/${billItem.bill_id}/bill_items/${billItem.id}/increment_quantity`,
+            headers: {
+              Authorization: cookies.token
+            }
+        })
+        setQuantity(prevState => prevState += 1)
+        // props.incrementItemQuantity(billItem.name, props.billRecipientId)
     }
 
-    const decrementQty = () => {
-        props.decrementItemQuantity(billItem.name, props.billRecipientId)
+    const decrementQty = async () => {
+        const response = await axios({ method: 'patch', 
+            url: `http://localhost:3000/api/bills/${billItem.bill_id}/bill_items/${billItem.id}/decrement_quantity`,
+            headers: {
+              Authorization: cookies.token
+            }
+        })
+        setQuantity(prevState => prevState -= 1)
+        // props.decrementItemQuantity(billItem.name, props.billRecipientId)
     }
 
-    const removeItem = () => {
-        props.removeItemFromPerson(billItem.name, props.billRecipientId)
+    const removeItem = async () => {
+        const response = await axios({ method: 'delete', 
+            url: `http://localhost:3000/api/bills/${billItem.bill_id}/bill_items/${billItem.id}`,
+            headers: {
+              Authorization: cookies.token
+            }
+        })
+        // props.removeItemFromPerson(billItem.name, props.billRecipientId)
     }
 
     return (
@@ -25,8 +51,8 @@ const IndividualItem = (props) => {
             <h4 style={{textIndent: "4px"}}>{billItem.item_name}</h4>
             <h4 className={styles.centerMoneyQuantity}>
                 <div className={styles.centerActionItems}>
-                    <RemoveIcon onClick={decrementQty} color={billItem.quantity === 1 ? 'disabled' : 'inherit'} />
-                    {billItem.quantity}
+                    <RemoveIcon onClick={decrementQty} color={quantity === 1 ? 'disabled' : 'inherit'} />
+                    {quantity}
                     <AddIcon onClick={incrementQty}/>
                 </div>
             </h4>
