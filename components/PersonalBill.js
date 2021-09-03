@@ -6,17 +6,18 @@ import ShareBill from "./ShareBill"
 
 
 const PersonalBill = (props) => {
-    const person = props.person
+    const billRecipient = props.billRecipient
 
 
     return (
         <div>
             <div className={styles.personalBillContainer}>
                 <div className={styles.nameAndShareDiv}>
-                    <h1>{person.name}</h1>
-                    <ShareBill person={person} />
+                    {/* <h1>{person.name}</h1> */}
+                    <h1>{billRecipient.recipient_name}</h1>
+                    <ShareBill billRecipient={billRecipient} />
                 </div>
-                <ItemForm addItemToPerson={props.addItemToPerson} personId={person.id} />
+                <ItemForm addItemToPerson={props.addItemToPerson} billRecipient={billRecipient.id} />
             </div>
             <div className={styles.billDetailsContainer}>
                 <div className={styles.itemsHeaders}>
@@ -25,18 +26,18 @@ const PersonalBill = (props) => {
                     <h4 className={styles.centerMoneyQuantity}>Qty</h4>
                     <h4 className={styles.centerMoneyQuantity}>Price</h4>
                 </div>
-                {person.items.map(item => (
+                {billRecipient.bill_items.map(billItem => (
                     <IndividualItem
-                        key={`${person.id}${item.name}`}
-                        item={item} 
+                        key={`${billRecipient.id}${billItem.item_name}`}
+                        billItem={billItem} 
                         incrementItemQuantity={props.incrementItemQuantity}
                         decrementItemQuantity={props.decrementItemQuantity}
                         removeItemFromPerson={props.removeItemFromPerson}
-                        personId={person.id}
+                        billRecipientId={billRecipient.id}
                     />
                 ))}
             </div>
-            <Totals person={person} eliminateTax={props.eliminateTax} addTax={props.addTax} />
+            <Totals billRecipient={billRecipient} eliminateTax={props.eliminateTax} addTax={props.addTax} />
 
         </div>
     )
