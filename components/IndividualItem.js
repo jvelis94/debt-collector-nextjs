@@ -36,12 +36,7 @@ const IndividualItem = (props) => {
     }
 
     const removeItem = async () => {
-        const response = await axios({ method: 'delete', 
-            url: `http://localhost:3000/api/bills/${billItem.bill_id}/bill_items/${billItem.id}`,
-            headers: {
-              Authorization: cookies.token
-            }
-        })
+        props.removeBillItem(billItem.bill_id, billItem.id)
         // props.removeItemFromPerson(billItem.name, props.billRecipientId)
     }
 

@@ -3,10 +3,31 @@ import ItemForm from './ItemForm'
 import Totals from "./Totals"
 import styles from './IndividualItem.module.css'
 import ShareBill from "./ShareBill"
-
+import { useState } from "react"
+import axios from 'axios'
+import { useCookies } from "react-cookie"
 
 const PersonalBill = (props) => {
     const billRecipient = props.billRecipient
+    const [cookies, setCookie, removeCookie] = useCookies([]);
+    const [billItems, setBillItems] = useState(billRecipient.bill_items)
+    
+    const removeBillItem = async (billId, billItemId) => {
+        console.log("in personalBill component")
+        const response = await axios({ method: 'delete', 
+            url: `http://localhost:3000/api/bills/${billId}/bill_items/${billItemId}`,
+            headers: {
+              Authorization: cookies.token
+            }
+        })
+
+        setBillItems(prevState => {
+            let removeItem = prevState.findIndex(el => el.id === billItemId)
+            let updatedBillItems = prevState.splice(removeItem, 1);
+            return [...updatedBillItems]
+        })
+
+    }
 
 
     return (
@@ -32,6 +53,7 @@ const PersonalBill = (props) => {
                         billItem={billItem} 
                         incrementItemQuantity={props.incrementItemQuantity}
                         decrementItemQuantity={props.decrementItemQuantity}
+                        removeBillItem = {removeBillItem}
                         removeItemFromPerson={props.removeItemFromPerson}
                         billRecipientId={billRecipient.id}
                     />
