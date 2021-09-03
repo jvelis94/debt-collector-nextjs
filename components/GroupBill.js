@@ -6,10 +6,13 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import TextField from '@material-ui/core/TextField';
 import axios from "axios";
+import { useCookies } from 'react-cookie';
 
 const initialState = []
 
 const GroupBill = (props) => {
+    const bill = props.bill
+    const [cookies, setCookie, removeCookie] = useCookies([]);
     const [requestHeaders, setRequestHeaders] = useState()
     // const billNameRef = useRef("")
     // const [bill, setBill] = useState({ id: null, bill_name: "" })
@@ -21,6 +24,7 @@ const GroupBill = (props) => {
     const newPersonRef = useRef()
     const [newPersonError, setNewPersonError] = useState(false)
     const [addPersonPlaceholder, setAddPersonPlaceholder] = useState("add new person")
+    const [billRecipients, setBillRecipients] = useState(bill.bill_recipients)//this is people
 
     useEffect(() => {
         setRequestHeaders({ headers: { 'Authorization': localStorage.getItem("token") } })
@@ -41,26 +45,27 @@ const GroupBill = (props) => {
     //     }           
     // }
 
-    const handleNewPersonSubmit = (event) => {
+    const handleNewPersonSubmit = async (event) => {
         event.preventDefault()
+        console.log(people)
         if (newPersonRef.current.value === "") {
             setNewPersonError(true)
-            return
         }
-        let newPerson = {
-            id: currentId,
-            name: newPersonRef.current.value,
-            items: [],
-            subtotal: 0,
-            tax: 0,
-            tip: 0,
-            total: 0
+        else {
+            const addPerson = {recipient_name: newPersonRef.current.value, bill_id: props.bill.id}
+            const token = cookies.token
+            const response = await axios.post(`http://localhost:3000/api/bills/${props.bill.id}/bill_recipients`, addPerson, { headers: {'Authorization': token}})
+            console.log(response)
+    
+            let newPerson = response.data
+            setPeople(prevState => [...prevState, newPerson])
+            // setPeople(prevState => [...prevState, newPerson])
+            // setCurrentId(prevState => prevState +=1)
+            // newPersonRef.current.value = ""
+            // setNewPersonError(false)
+            // setAddPersonPlaceholder("add another person")
         }
-        setPeople(prevState => [...prevState, newPerson])
-        setCurrentId(prevState => prevState +=1)
-        newPersonRef.current.value = ""
-        setNewPersonError(false)
-        setAddPersonPlaceholder("add another person")
+
     }
 
     const addItemToPerson = (name, price, personId) => {
@@ -164,7 +169,8 @@ const GroupBill = (props) => {
 
     let tabsUi = (
         <SimpleTabs 
-            people={people} 
+            billRecipients={billRecipients} 
+            // people={people} 
             addItemToPerson={addItemToPerson} 
             incrementItemQuantity={incrementItemQuantity}
             decrementItemQuantity={decrementItemQuantity}
@@ -224,8 +230,10 @@ const GroupBill = (props) => {
 
             {/* {billNameRef.current.value != "" && newPersonUI} */}
             {newPersonUI}
-            {people.length > 0 && tabsUi}
-            {people.length > 0 && tipUi}
+            {/* {people.length > 0 && tabsUi}
+            {people.length > 0 && tipUi} */}
+            {billRecipients.length > 0 && tabsUi}
+            {billRecipients.length > 0 && tipUi}
         </>
     )
 }

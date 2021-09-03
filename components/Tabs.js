@@ -60,16 +60,17 @@ export default function SimpleTabs(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs style={{backgroundColor: "#2999D4"}} value={value} onChange={handleChange} aria-label="simple tabs example">
-            {props.people.map(person => (
-                <Tab key={person.id-1} label={person.name} {...a11yProps(person.id-1)} />
+            {props.billRecipients.map(billRecipient => (
+                /* <Tab key={person.id-1} label={person.name} {...a11yProps(person.id-1)} /> */
+                <Tab key={billRecipient.id-1} label={billRecipient.recipient_name} {...a11yProps(billRecipient.id-1)} />
             ))}
         </Tabs>
       </AppBar>
-      {props.people.map(person => (
-            <TabPanel value={value} index={person.id-1} key={person.id-1}>
+      {props.billRecipients.map(billRecipient => (
+            <TabPanel value={value} index={billRecipient.id-1} key={billRecipient.id-1}>
                 <PersonalBill 
-                    key={person.id-1} 
-                    person={person} 
+                    key={billRecipient.id-1} 
+                    billRecipient={billRecipient} 
                     addItemToPerson={props.addItemToPerson}
                     incrementItemQuantity={props.incrementItemQuantity}
                     decrementItemQuantity={props.decrementItemQuantity}
