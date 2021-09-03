@@ -10,7 +10,7 @@ import { useCookies } from "react-cookie"
 const PersonalBill = (props) => {
     const billRecipient = props.billRecipient
     const [cookies, setCookie, removeCookie] = useCookies([]);
-    const [billItems, setBillItems] = useState(billRecipient.bill_items)
+    const [billItems, setBillItems] = useState(billRecipient.bill_items || [])
     
     const removeBillItem = async (billId, billItemId) => {
         console.log("in personalBill component")
@@ -36,7 +36,7 @@ const PersonalBill = (props) => {
                 <div className={styles.nameAndShareDiv}>
                     {/* <h1>{person.name}</h1> */}
                     <h1>{billRecipient.recipient_name}</h1>
-                    <ShareBill billRecipient={billRecipient} />
+                    {billItems.length > 0 && <ShareBill billRecipient={billRecipient} />}
                 </div>
                 <ItemForm addItemToPerson={props.addItemToPerson} billRecipient={billRecipient.id} />
             </div>
@@ -47,7 +47,7 @@ const PersonalBill = (props) => {
                     <h4 className={styles.centerMoneyQuantity}>Qty</h4>
                     <h4 className={styles.centerMoneyQuantity}>Price</h4>
                 </div>
-                {billRecipient.bill_items.map(billItem => (
+                {billItems.map(billItem => (
                     <IndividualItem
                         key={`${billRecipient.id}${billItem.item_name}`}
                         billItem={billItem} 
