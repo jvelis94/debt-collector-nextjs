@@ -47,7 +47,7 @@ const GroupBill = (props) => {
 
     const handleNewPersonSubmit = async (event) => {
         event.preventDefault()
-        console.log(people)
+        console.log(billRecipients)
         if (newPersonRef.current.value === "") {
             setNewPersonError(true)
         }
@@ -55,10 +55,10 @@ const GroupBill = (props) => {
             const addPerson = {recipient_name: newPersonRef.current.value, bill_id: props.bill.id}
             const token = cookies.token
             const response = await axios.post(`http://localhost:3000/api/bills/${props.bill.id}/bill_recipients`, addPerson, { headers: {'Authorization': token}})
-            console.log(response)
     
             let newPerson = response.data
-            setPeople(prevState => [...prevState, newPerson])
+            setBillRecipients(prevState => [...prevState, newPerson])
+            // setPeople(prevState => [...prevState, newPerson])
             // setPeople(prevState => [...prevState, newPerson])
             // setCurrentId(prevState => prevState +=1)
             // newPersonRef.current.value = ""
@@ -99,7 +99,7 @@ const GroupBill = (props) => {
         let updateItem = currentPerson[0]['items'].findIndex(el => el.name === item)
         currentPerson[0]['items'][updateItem]['qty'] += 1
         updateTotals(currentPerson[0], currentPersonIndex, currentPerson[0]['items'][updateItem]['price'])
-    }
+    } //done
 
     const decrementItemQuantity = (item, personId) => {
         let currentPersonIndex = people.findIndex(person => person.id === personId)
@@ -110,7 +110,7 @@ const GroupBill = (props) => {
             currentPerson[0]['items'][updateItem]['qty'] -= 1
             updateTotals(currentPerson[0], currentPersonIndex, currentPerson[0]['items'][updateItem]['price'], "minus")
         }
-    }
+    } //done
 
     const removeItemFromPerson = (item, personId) => {
         console.log('removing item')
@@ -121,7 +121,7 @@ const GroupBill = (props) => {
         currentPerson[0]['items'][removeItem]['qty'] = 0
         currentPerson[0]['items'].splice(removeItem, 1);
         updateTotals(currentPerson[0], currentPersonIndex, removeItemTotal, "minus")
-    }
+    } //done
 
 
     const incrementTipRate = () => {
