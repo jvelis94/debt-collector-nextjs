@@ -45,22 +45,22 @@ const GroupBill = (props) => {
     //     }           
     // }
 
-    const handleNewPersonSubmit = async (event) => {
-        event.preventDefault()
-        console.log(billRecipients)
-        if (newPersonRef.current.value === "") {
-            setNewPersonError(true)
-        }
-        else {
-            const addPerson = {recipient_name: newPersonRef.current.value, bill_id: props.bill.id}
-            const token = cookies.token
-            const response = await axios.post(`http://localhost:3000/api/bills/${props.bill.id}/bill_recipients`, addPerson, { headers: {'Authorization': token}})
+    // const handleNewPersonSubmit = async (event) => {
+    //     event.preventDefault()
+    //     console.log(billRecipients)
+    //     if (newPersonRef.current.value === "") {
+    //         setNewPersonError(true)
+    //     }
+    //     else {
+    //         const addPerson = {recipient_name: newPersonRef.current.value, bill_id: props.bill.id}
+    //         const token = cookies.token
+    //         const response = await axios.post(`http://localhost:3000/api/bills/${props.bill.id}/bill_recipients`, addPerson, { headers: {'Authorization': token}})
     
-            let newPerson = response.data
-            setBillRecipients(prevState => [...prevState, newPerson])
-        }
+    //         let newPerson = response.data
+    //         setBillRecipients(prevState => [...prevState, newPerson])
+    //     }
 
-    } //done
+    // } //done
 
     const addItemToPerson = (name, price, personId) => {
         console.log(`adding ${name} to person`)
@@ -87,35 +87,35 @@ const GroupBill = (props) => {
         setPeople(updatedPeope)
     }
 
-    const incrementItemQuantity = (item, personId) => {
-        let currentPersonIndex = people.findIndex(person => person.id === personId)
-        let currentPerson = people.filter(person => person.id === personId)
-        let updateItem = currentPerson[0]['items'].findIndex(el => el.name === item)
-        currentPerson[0]['items'][updateItem]['qty'] += 1
-        updateTotals(currentPerson[0], currentPersonIndex, currentPerson[0]['items'][updateItem]['price'])
-    } //done
+    // const incrementItemQuantity = (item, personId) => {
+    //     let currentPersonIndex = people.findIndex(person => person.id === personId)
+    //     let currentPerson = people.filter(person => person.id === personId)
+    //     let updateItem = currentPerson[0]['items'].findIndex(el => el.name === item)
+    //     currentPerson[0]['items'][updateItem]['qty'] += 1
+    //     updateTotals(currentPerson[0], currentPersonIndex, currentPerson[0]['items'][updateItem]['price'])
+    // } //done
 
-    const decrementItemQuantity = (item, personId) => {
-        let currentPersonIndex = people.findIndex(person => person.id === personId)
-        let currentPerson = people.filter(person => person.id === personId)
-        let updateItem = currentPerson[0]['items'].findIndex(el => el.name === item)
+    // const decrementItemQuantity = (item, personId) => {
+    //     let currentPersonIndex = people.findIndex(person => person.id === personId)
+    //     let currentPerson = people.filter(person => person.id === personId)
+    //     let updateItem = currentPerson[0]['items'].findIndex(el => el.name === item)
 
-        if (currentPerson[0]['items'][updateItem]['qty'] > 1) {
-            currentPerson[0]['items'][updateItem]['qty'] -= 1
-            updateTotals(currentPerson[0], currentPersonIndex, currentPerson[0]['items'][updateItem]['price'], "minus")
-        }
-    } //done
+    //     if (currentPerson[0]['items'][updateItem]['qty'] > 1) {
+    //         currentPerson[0]['items'][updateItem]['qty'] -= 1
+    //         updateTotals(currentPerson[0], currentPersonIndex, currentPerson[0]['items'][updateItem]['price'], "minus")
+    //     }
+    // } //done
 
-    const removeItemFromPerson = (item, personId) => {
-        console.log('removing item')
-        let currentPersonIndex = people.findIndex(person => person.id === personId)
-        let currentPerson = people.filter(person => person.id === personId)
-        let removeItem = currentPerson[0]['items'].findIndex(el => el.name === item)
-        const removeItemTotal = (currentPerson[0]['items'][removeItem]['price']) * (currentPerson[0]['items'][removeItem]['qty'])
-        currentPerson[0]['items'][removeItem]['qty'] = 0
-        currentPerson[0]['items'].splice(removeItem, 1);
-        updateTotals(currentPerson[0], currentPersonIndex, removeItemTotal, "minus")
-    } //done
+    // const removeItemFromPerson = (item, personId) => {
+    //     console.log('removing item')
+    //     let currentPersonIndex = people.findIndex(person => person.id === personId)
+    //     let currentPerson = people.filter(person => person.id === personId)
+    //     let removeItem = currentPerson[0]['items'].findIndex(el => el.name === item)
+    //     const removeItemTotal = (currentPerson[0]['items'][removeItem]['price']) * (currentPerson[0]['items'][removeItem]['qty'])
+    //     currentPerson[0]['items'][removeItem]['qty'] = 0
+    //     currentPerson[0]['items'].splice(removeItem, 1);
+    //     updateTotals(currentPerson[0], currentPersonIndex, removeItemTotal, "minus")
+    // } //done
 
 
     const incrementTipRate = () => {
@@ -126,16 +126,27 @@ const GroupBill = (props) => {
         setTipRate(prevState => prevState -= 0.01)
     }
 
-    const updateTotals = (person, personIndex, price, type="add") => {
-        type ==="add" ? person['subtotal'] += parseFloat(parseInt(price)) : person['subtotal'] -= parseFloat(parseInt(price))
-        person['tax'] = Math.round(100*(person['subtotal']) * taxRate)/100
-        person['tip'] = Math.round(100*(person['subtotal']) * tipRate)/100
-        person['total'] = Math.round(100*(person['subtotal'] + person['tax'] + person['tip']))/100
+    // const updateTotals = (person, personIndex, price, type="add") => {
+    //     type ==="add" ? person['subtotal'] += parseFloat(parseInt(price)) : person['subtotal'] -= parseFloat(parseInt(price))
+    //     person['tax'] = Math.round(100*(person['subtotal']) * taxRate)/100
+    //     person['tip'] = Math.round(100*(person['subtotal']) * tipRate)/100
+    //     person['total'] = Math.round(100*(person['subtotal'] + person['tax'] + person['tip']))/100
 
-        setPeople(prevState => {
-            let newState = [...prevState]
-            newState[personIndex] = person
-            return newState
+    //     setPeople(prevState => {
+    //         let newState = [...prevState]
+    //         newState[personIndex] = person
+    //         return newState
+    //     })
+    // }
+
+    const updateBillRecipients = (recipient) => {
+        const recipientIndex = billRecipients.findIndex(person => person.id === recipient.id)
+        const recipientBillItems = billRecipients[recipientIndex]['bill_items']
+        recipient['bill_items'] = recipientBillItems
+        setBillRecipients(prevState => {
+            const updatedRecipients = [...prevState]
+            updatedRecipients[recipientIndex] = recipient
+            return [...updatedRecipients]
         })
     }
 
@@ -171,6 +182,7 @@ const GroupBill = (props) => {
             removeItemFromPerson={removeItemFromPerson}
             eliminateTax={eliminateTax}
             addTax={addTax}
+            updateBillRecipients={updateBillRecipients}
         />
     )
 

@@ -21,6 +21,7 @@ const IndividualItem = (props) => {
             }
         })
         setQuantity(prevState => prevState += 1)
+        props.updateBillRecipients(response.data.bill_recipient)
         // props.incrementItemQuantity(billItem.name, props.billRecipientId)
     }
 
@@ -32,11 +33,13 @@ const IndividualItem = (props) => {
             }
         })
         setQuantity(prevState => prevState -= 1)
+        props.updateBillRecipients(response.data.bill_recipient)
         // props.decrementItemQuantity(billItem.name, props.billRecipientId)
     }
 
     const removeItem = async () => {
         props.removeBillItem(billItem.bill_id, billItem.id)
+        // props.updateBillRecipients(response.data.bill_recipient)
         // props.removeItemFromPerson(billItem.name, props.billRecipientId)
     }
 

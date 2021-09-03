@@ -36,6 +36,19 @@ const PersonalBill = (props) => {
         setBillItems(prevState => [...prevState, newBillItem])
     }
 
+    // const updateRecipientTotals = (billRecipient, billRecipientIndex, price, type="add") => {
+    //     type ==="add" ? billRecipient['subtotal'] += parseFloat(parseInt(price)) : billRecipient['subtotal'] -= parseFloat(parseInt(price))
+    //     billRecipient['tax'] = Math.round(100*(billRecipient['subtotal']) * taxRate)/100
+    //     billRecipient['tip'] = Math.round(100*(billRecipient['subtotal']) * tipRate)/100
+    //     billRecipient['total'] = Math.round(100*(billRecipient['subtotal'] + billRecipient['tax'] + billRecipient['tip']))/100
+
+    //     setBillRecipients(prevState => {
+    //         let newState = [...prevState]
+    //         newState[personIndex] = billRecipient
+    //         return newState
+    //     })
+    // }
+
 
     return (
         <div>
@@ -63,6 +76,7 @@ const PersonalBill = (props) => {
                         removeBillItem = {removeBillItem}
                         removeItemFromPerson={props.removeItemFromPerson}
                         billRecipientId={billRecipient.id}
+                        updateBillRecipients={props.updateBillRecipients}
                     />
                 ))}
             </div>

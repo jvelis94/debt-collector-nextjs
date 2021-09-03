@@ -32,7 +32,6 @@ export async function getServerSideProps(context) {
     }
     else {
         const response = await axios.get(`http://localhost:3000/api/bills/${context.query.pid}`, { headers: {'Authorization': token}})
-        console.log(response)
         const data = response.data
         return {
           props: { bill: data }
