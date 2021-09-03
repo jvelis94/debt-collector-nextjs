@@ -9,11 +9,11 @@ import axios from "axios";
 
 const initialState = []
 
-const GroupBill = () => {
+const GroupBill = (props) => {
     const [requestHeaders, setRequestHeaders] = useState()
-    const billNameRef = useRef("")
-    const [bill, setBill] = useState({ id: null, bill_name: "" })
-    const [billNameError, setBillNameError] =useState(false)
+    // const billNameRef = useRef("")
+    // const [bill, setBill] = useState({ id: null, bill_name: "" })
+    // const [billNameError, setBillNameError] =useState(false)
     const [people, setPeople] = useState(initialState)
     const [taxRate, setTaxRate] = useState(0.08875)
     const [tipRate, setTipRate] = useState(.18)
@@ -27,19 +27,19 @@ const GroupBill = () => {
         updatePeople()
     }, [tipRate])
 
-    const handleNewBillInitiation = async (event) => {
-        event.preventDefault()
-        billNameRef.current.value === "" ? setBillNameError(true) : setBillNameError(false)
-        const newBill = { bill: { bill_name: billNameRef.current.value } }
-        try {
-            let response = await axios.post("http://localhost:3000/api/bills", newBill, requestHeaders)
-            let data = response.data
-            console.log(data)
-            setBill({id: data.id, bill_name: data.bill_name})
-        } catch (error) {
-            console.error(error)
-        }           
-    }
+    // const handleNewBillInitiation = async (event) => {
+    //     event.preventDefault()
+    //     billNameRef.current.value === "" ? setBillNameError(true) : setBillNameError(false)
+    //     const newBill = { bill: { bill_name: billNameRef.current.value } }
+    //     try {
+    //         let response = await axios.post("http://localhost:3000/api/bills", newBill, requestHeaders)
+    //         let data = response.data
+    //         console.log(data)
+    //         setBill({id: data.id, bill_name: data.bill_name})
+    //     } catch (error) {
+    //         console.error(error)
+    //     }           
+    // }
 
     const handleNewPersonSubmit = (event) => {
         event.preventDefault()
@@ -198,31 +198,32 @@ const GroupBill = () => {
         </div>
     )
 
-    let newBillFormUI = (
-        <div className={styles.newPersonContainer}>
-            <form onSubmit={handleNewBillInitiation} >
-                <input 
-                    type="text" 
-                    name="billName" 
-                    placeholder="bill name"
-                    className={`${styles.formInputs} ${billNameError ? styles.inputError : ""}`} 
-                    ref={billNameRef} 
-                />
-                <input type="submit" value="Add" className={styles.formSubmit}/>
-            </form>
-        </div>
-    )
+    // let newBillFormUI = (
+    //     <div className={styles.newPersonContainer}>
+    //         <form onSubmit={handleNewBillInitiation} >
+    //             <input 
+    //                 type="text" 
+    //                 name="billName" 
+    //                 placeholder="bill name"
+    //                 className={`${styles.formInputs} ${billNameError ? styles.inputError : ""}`} 
+    //                 ref={billNameRef} 
+    //             />
+    //             <input type="submit" value="Add" className={styles.formSubmit}/>
+    //         </form>
+    //     </div>
+    // )
 
     return (
         <>
             <div style={{textAlign: 'center'}}>
-                
-                <img src='../split_logo.png' alt='logo' style={{width: '50%'}}/>
+                <img src='../split_logo.png' alt='logo' style={{width: '30%'}}/>
+                <h1>{props.bill.bill_name}</h1>
             </div>
 
-            {newBillFormUI}
+            {/* {newBillFormUI} */}
 
-            {billNameRef.current.value != "" && newPersonUI}
+            {/* {billNameRef.current.value != "" && newPersonUI} */}
+            {newPersonUI}
             {people.length > 0 && tabsUi}
             {people.length > 0 && tipUi}
         </>

@@ -1,11 +1,19 @@
 import axios from 'axios'
+import { useCookies } from 'react-cookie';
 import { useContext } from 'react'
-import AuthenticationContext, { AuthenticationContextProvider } from '../../store/authentication-store'
+import GroupBill from '../../components/GroupBill';
 
 const BillShow = (props) => {
+    const [cookies, setCookie, removeCookie] = useCookies([]);
+    // console.log(cookies)
+    const bill = props.bill
+
+    
+    // removeCookie("random cookie", { path: "/" })
+    
     return (
         <div>
-            Bill show page
+            <GroupBill bill={bill} />
         </div>
     )
 }
@@ -13,14 +21,14 @@ const BillShow = (props) => {
 
 export async function getServerSideProps(context) {
     // Get external data from the file system, API, DB, etc.
-    const data = await axios.get(`http://localhost:3000/api/bills/${context.query.pid}`, { headers: {'Authorization': `${localStorage.token}`}})
-
-    console.log(data)
+    const token = context.req.cookies.token
+    const response = await axios.get(`http://localhost:3000/api/bills/${context.query.pid}`, { headers: {'Authorization': token}})
+    const data = response.data
   
-    // The value of the `props` key will be
-    //  passed to the `Home` component
     return {
-      props: data
+      props: { bill: data }
     }
 }
+
+
 export default BillShow
