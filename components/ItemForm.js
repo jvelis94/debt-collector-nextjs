@@ -5,6 +5,7 @@ const ItemForm = (props) => {
     const nameRef = useRef()
     const priceRef = useRef()
     const [newItemError, setNewItemError] = useState(false)
+    const billRecipient = props.billRecipient
 
     const handleFormSubmit = (event) => {
         event.preventDefault()
@@ -13,7 +14,8 @@ const ItemForm = (props) => {
             return
         }
         setNewItemError(false)
-        props.addItemToPerson(nameRef.current.value, priceRef.current.value, props.personId)
+        props.addBillItem(nameRef.current.value, priceRef.current.value, billRecipient.id, billRecipient.bill_id)
+        // props.addItemToPerson(nameRef.current.value, priceRef.current.value, props.personId)
         nameRef.current.value = ""
         priceRef.current.value = ""
     }

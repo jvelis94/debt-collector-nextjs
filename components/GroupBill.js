@@ -58,15 +58,9 @@ const GroupBill = (props) => {
     
             let newPerson = response.data
             setBillRecipients(prevState => [...prevState, newPerson])
-            // setPeople(prevState => [...prevState, newPerson])
-            // setPeople(prevState => [...prevState, newPerson])
-            // setCurrentId(prevState => prevState +=1)
-            // newPersonRef.current.value = ""
-            // setNewPersonError(false)
-            // setAddPersonPlaceholder("add another person")
         }
 
-    }
+    } //done
 
     const addItemToPerson = (name, price, personId) => {
         console.log(`adding ${name} to person`)

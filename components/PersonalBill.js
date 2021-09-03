@@ -26,7 +26,14 @@ const PersonalBill = (props) => {
             let updatedBillItems = prevState.splice(removeItem, 1);
             return [...updatedBillItems]
         })
+    }
 
+    const addBillItem = async (name, price, billRecipientId, billId) => {
+        console.log(`adding ${name} to person`)
+        const data = { "item_name": name, "price": price, "bill_id": billId, "bill_recipient_id": billRecipientId}
+        const response = await axios.post(`http://localhost:3000/api/bills/${billId}/bill_items`, data, { headers: {'Authorization': cookies.token}})
+        const newBillItem = response.data
+        setBillItems(prevState => [...prevState, newBillItem])
     }
 
 
@@ -38,7 +45,7 @@ const PersonalBill = (props) => {
                     <h1>{billRecipient.recipient_name}</h1>
                     {billItems.length > 0 && <ShareBill billRecipient={billRecipient} />}
                 </div>
-                <ItemForm addItemToPerson={props.addItemToPerson} billRecipient={billRecipient.id} />
+                <ItemForm addItemToPerson={props.addItemToPerson} billRecipient={billRecipient} addBillItem={addBillItem} />
             </div>
             <div className={styles.billDetailsContainer}>
                 <div className={styles.itemsHeaders}>
