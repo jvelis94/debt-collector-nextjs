@@ -1,5 +1,4 @@
 .formInputs {
-    margin-bottom: 12px;
     border-radius: 10px;
     border: 1px solid #c5c5c5;
     padding: 4px;
@@ -16,7 +15,7 @@
 }
 
 .centerActionItems {
-    padding: 24px;
+    padding: 0px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -24,6 +23,7 @@
     color: white;
     font-weight: bold;
     font-size: large;
+    width: 100%;
 }
 
 .newPersonContainer {
@@ -47,4 +47,14 @@
 .inputError {
     border: 1px solid red;
     box-shadow: 0 0 2px red; 
+}
+
+.billTaxTipContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0px;    
+}
+
+.taxTipHeaders {
+    margin-right: 8px;
 }

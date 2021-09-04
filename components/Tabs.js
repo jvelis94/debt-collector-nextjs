@@ -78,6 +78,7 @@ export default function SimpleTabs(props) {
                     eliminateTax={props.eliminateTax}
                     addTax={props.addTax}
                     updateBillRecipients={props.updateBillRecipients}
+                    bill={props.bill}
                 />
             </TabPanel>
         ))}

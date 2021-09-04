@@ -11,133 +11,58 @@ import { useCookies } from 'react-cookie';
 const initialState = []
 
 const GroupBill = (props) => {
-    const bill = props.bill
+    const [bill, setBill] = useState(props.bill)
     const [cookies, setCookie, removeCookie] = useCookies([]);
-    const [requestHeaders, setRequestHeaders] = useState()
-    // const billNameRef = useRef("")
-    // const [bill, setBill] = useState({ id: null, bill_name: "" })
-    // const [billNameError, setBillNameError] =useState(false)
-    const [people, setPeople] = useState(initialState)
-    const [taxRate, setTaxRate] = useState(0.08875)
-    const [tipRate, setTipRate] = useState(.18)
-    const [currentId, setCurrentId] = useState(1)
+    const [taxRate, setTaxRate] = useState(bill.tax)
+    const [gratuityRate, setGratuityRate] = useState(bill.gratuity)
     const newPersonRef = useRef()
     const [newPersonError, setNewPersonError] = useState(false)
     const [addPersonPlaceholder, setAddPersonPlaceholder] = useState("add new person")
     const [billRecipients, setBillRecipients] = useState(bill.bill_recipients)//this is people
 
     useEffect(() => {
-        setRequestHeaders({ headers: { 'Authorization': localStorage.getItem("token") } })
-        updatePeople()
-    }, [tipRate])
-
-    // const handleNewBillInitiation = async (event) => {
-    //     event.preventDefault()
-    //     billNameRef.current.value === "" ? setBillNameError(true) : setBillNameError(false)
-    //     const newBill = { bill: { bill_name: billNameRef.current.value } }
-    //     try {
-    //         let response = await axios.post("http://localhost:3000/api/bills", newBill, requestHeaders)
-    //         let data = response.data
-    //         console.log(data)
-    //         setBill({id: data.id, bill_name: data.bill_name})
-    //     } catch (error) {
-    //         console.error(error)
-    //     }           
-    // }
-
-    // const handleNewPersonSubmit = async (event) => {
-    //     event.preventDefault()
-    //     console.log(billRecipients)
-    //     if (newPersonRef.current.value === "") {
-    //         setNewPersonError(true)
-    //     }
-    //     else {
-    //         const addPerson = {recipient_name: newPersonRef.current.value, bill_id: props.bill.id}
-    //         const token = cookies.token
-    //         const response = await axios.post(`http://localhost:3000/api/bills/${props.bill.id}/bill_recipients`, addPerson, { headers: {'Authorization': token}})
+        const delayDebounceFn = setTimeout(() => {
+            axios({ method: 'patch', 
+            url: `http://localhost:3000/api/bills/${bill.id}`, 
+            data: {"tax": taxRate},
+            headers: {
+              Authorization: cookies.token
+            }
+        }).then(response => setBill(response.data))
+            // props.updateBill(tax)
+        //   console.log(tax)
+          // Send Axios request here
+        }, 1000)
     
-    //         let newPerson = response.data
-    //         setBillRecipients(prevState => [...prevState, newPerson])
-    //     }
+        return () => clearTimeout(delayDebounceFn)
+    }, [taxRate])
 
-    // } //done
+    
 
-    const addItemToPerson = (name, price, personId) => {
-        console.log(`adding ${name} to person`)
-        let currentPersonIndex = people.findIndex(person => person.id === personId)
-        let currentPerson = people.filter(person => person.id === personId)
-        console.log(currentPerson)
-        currentPerson[0]['items'].push({
-            name: name,
-            price: parseFloat(parseInt(price)),
-            qty: 1
-        })
-        updateTotals(currentPerson[0], currentPersonIndex, price)
+    const handleNewPersonSubmit = async (event) => {
+        event.preventDefault()
+        console.log(billRecipients)
+        if (newPersonRef.current.value === "") {
+            setNewPersonError(true)
+        }
+        else {
+            const addPerson = {recipient_name: newPersonRef.current.value, bill_id: props.bill.id}
+            const token = cookies.token
+            const response = await axios.post(`http://localhost:3000/api/bills/${props.bill.id}/bill_recipients`, addPerson, { headers: {'Authorization': token}})
+    
+            let newPerson = response.data
+            setBillRecipients(prevState => [...prevState, newPerson])
+        }
     }
-
-    const updatePeople = () => {
-        const updatedPeope = people.map(person => {
-            let oldTip = person['tip']
-            let newTip = Math.round(100*(person['subtotal']) * tipRate)/100
-            person['tip'] = newTip
-            person['total'] = Math.round(100*(person['total'] - oldTip + newTip))/100
-            return person
-        })
-
-        setPeople(updatedPeope)
-    }
-
-    // const incrementItemQuantity = (item, personId) => {
-    //     let currentPersonIndex = people.findIndex(person => person.id === personId)
-    //     let currentPerson = people.filter(person => person.id === personId)
-    //     let updateItem = currentPerson[0]['items'].findIndex(el => el.name === item)
-    //     currentPerson[0]['items'][updateItem]['qty'] += 1
-    //     updateTotals(currentPerson[0], currentPersonIndex, currentPerson[0]['items'][updateItem]['price'])
-    // } //done
-
-    // const decrementItemQuantity = (item, personId) => {
-    //     let currentPersonIndex = people.findIndex(person => person.id === personId)
-    //     let currentPerson = people.filter(person => person.id === personId)
-    //     let updateItem = currentPerson[0]['items'].findIndex(el => el.name === item)
-
-    //     if (currentPerson[0]['items'][updateItem]['qty'] > 1) {
-    //         currentPerson[0]['items'][updateItem]['qty'] -= 1
-    //         updateTotals(currentPerson[0], currentPersonIndex, currentPerson[0]['items'][updateItem]['price'], "minus")
-    //     }
-    // } //done
-
-    // const removeItemFromPerson = (item, personId) => {
-    //     console.log('removing item')
-    //     let currentPersonIndex = people.findIndex(person => person.id === personId)
-    //     let currentPerson = people.filter(person => person.id === personId)
-    //     let removeItem = currentPerson[0]['items'].findIndex(el => el.name === item)
-    //     const removeItemTotal = (currentPerson[0]['items'][removeItem]['price']) * (currentPerson[0]['items'][removeItem]['qty'])
-    //     currentPerson[0]['items'][removeItem]['qty'] = 0
-    //     currentPerson[0]['items'].splice(removeItem, 1);
-    //     updateTotals(currentPerson[0], currentPersonIndex, removeItemTotal, "minus")
-    // } //done
 
 
     const incrementTipRate = () => {
-        setTipRate(prevState => prevState += 0.01)
+        setGratuityRate(prevState => prevState += 0.01)
     }
 
     const decrementTipRate = () => {
-        setTipRate(prevState => prevState -= 0.01)
+        setGratuityRate(prevState => prevState -= 0.01)
     }
-
-    // const updateTotals = (person, personIndex, price, type="add") => {
-    //     type ==="add" ? person['subtotal'] += parseFloat(parseInt(price)) : person['subtotal'] -= parseFloat(parseInt(price))
-    //     person['tax'] = Math.round(100*(person['subtotal']) * taxRate)/100
-    //     person['tip'] = Math.round(100*(person['subtotal']) * tipRate)/100
-    //     person['total'] = Math.round(100*(person['subtotal'] + person['tax'] + person['tip']))/100
-
-    //     setPeople(prevState => {
-    //         let newState = [...prevState]
-    //         newState[personIndex] = person
-    //         return newState
-    //     })
-    // }
 
     const updateBillRecipients = (recipient) => {
         const recipientIndex = billRecipients.findIndex(person => person.id === recipient.id)
@@ -150,51 +75,39 @@ const GroupBill = (props) => {
         })
     }
 
-    const eliminateTax = () => {
-        // console.log('eliminating tax')
-        setTaxRate(0)
-        let newPeople = people.map(person => {
-            person['tax'] = 0
-            person['total'] = Math.round(100*(person['subtotal'] + person['tax'] + person['tip']))/100
-            return person
-        })
-        setPeople([...newPeople])
-    }
 
-    const addTax = () => {
-        // console.log('eliminating tax')
-        setTaxRate(0.08875)
-        let newPeople = people.map(person => {
-            person['tax'] = person['subtotal'] * 0.08875
-            person['total'] = Math.round(100*(person['subtotal'] + person['tax'] + person['tip']))/100
-            return person
+    const updateTax = async (tax) => {
+        const response = await axios({ method: 'patch', 
+            url: `http://localhost:3000/api/bills/${billId}`,
+            headers: {
+              Authorization: cookies.token
+            }
         })
-        setPeople([...newPeople])
+        props.updateBillRecipients(response.data.bill_recipient)
     }
 
     let tabsUi = (
         <SimpleTabs 
             billRecipients={billRecipients} 
-            // people={people} 
-            addItemToPerson={addItemToPerson} 
-            incrementItemQuantity={incrementItemQuantity}
-            decrementItemQuantity={decrementItemQuantity}
-            removeItemFromPerson={removeItemFromPerson}
-            eliminateTax={eliminateTax}
-            addTax={addTax}
             updateBillRecipients={updateBillRecipients}
+            bill={bill}
         />
     )
 
-    let tipUi = (
-        <div className={styles.centerActionItems}>
-            <h4>Tip:</h4>
-            <RemoveIcon onClick={decrementTipRate} />
-                {Math.round(tipRate*100)}%  
-            <AddIcon onClick={incrementTipRate} />
+    let taxTipUi = (
+        <div className={styles.billTaxTipContainer}>
+            <div className={styles.centerActionItems}>
+                <h4 className={styles.taxTipHeaders}>Tip:</h4>
+                <RemoveIcon onClick={decrementTipRate} />
+                    {Math.round(gratuityRate*100)}%  
+                <AddIcon onClick={incrementTipRate} />
+            </div>
+            <div className={styles.centerActionItems}>
+                <h4 className={styles.taxTipHeaders}>Tax:</h4>
+                <input type="number" name="tax" placeholder={taxRate} className={styles.formInputs} onChange={(e) => setTaxRate(e.target.value)} value={taxRate}/>
+            </div>
         </div>
     )
-
     let newPersonUI = (
         <div className={styles.newPersonContainer}>
             <form onSubmit={handleNewPersonSubmit} >
@@ -210,20 +123,6 @@ const GroupBill = (props) => {
         </div>
     )
 
-    // let newBillFormUI = (
-    //     <div className={styles.newPersonContainer}>
-    //         <form onSubmit={handleNewBillInitiation} >
-    //             <input 
-    //                 type="text" 
-    //                 name="billName" 
-    //                 placeholder="bill name"
-    //                 className={`${styles.formInputs} ${billNameError ? styles.inputError : ""}`} 
-    //                 ref={billNameRef} 
-    //             />
-    //             <input type="submit" value="Add" className={styles.formSubmit}/>
-    //         </form>
-    //     </div>
-    // )
 
     return (
         <>
@@ -232,14 +131,10 @@ const GroupBill = (props) => {
                 <h1>{props.bill.bill_name}</h1>
             </div>
 
-            {/* {newBillFormUI} */}
-
-            {/* {billNameRef.current.value != "" && newPersonUI} */}
             {newPersonUI}
-            {/* {people.length > 0 && tabsUi}
-            {people.length > 0 && tipUi} */}
+            
+            {billRecipients.length > 0 && taxTipUi}
             {billRecipients.length > 0 && tabsUi}
-            {billRecipients.length > 0 && tipUi}
         </>
     )
 }

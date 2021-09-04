@@ -33,7 +33,9 @@ const PersonalBill = (props) => {
         const data = { "item_name": name, "price": price, "bill_id": billId, "bill_recipient_id": billRecipientId}
         const response = await axios.post(`http://localhost:3000/api/bills/${billId}/bill_items`, data, { headers: {'Authorization': cookies.token}})
         const newBillItem = response.data
+        console.log(response.data)
         setBillItems(prevState => [...prevState, newBillItem])
+        props.updateBillRecipients(response.data.bill_recipient)
     }
 
     // const updateRecipientTotals = (billRecipient, billRecipientIndex, price, type="add") => {
@@ -80,7 +82,7 @@ const PersonalBill = (props) => {
                     />
                 ))}
             </div>
-            <Totals billRecipient={billRecipient} eliminateTax={props.eliminateTax} addTax={props.addTax} />
+            <Totals billRecipient={billRecipient} eliminateTax={props.eliminateTax} addTax={props.addTax} bill={props.bill}/>
 
         </div>
     )
