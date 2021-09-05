@@ -5,9 +5,9 @@ import { useCookies } from 'react-cookie';
 
 const Totals = (props) => {
     const billRecipient = props.billRecipient
-    const billRecipientShare = props.bill.subtotal > 0 ? billRecipient.subtotal / props.bill.subtotal : 0
-    console.log(billRecipientShare)
-    const taxShare = billRecipient === 0 ? 0 : (Math.round(100*(props.bill.tax * billRecipientShare))/100)
+    // const billRecipientShare = props.bill.subtotal > 0 ? billRecipient.subtotal / props.bill.subtotal : 0
+    
+    // const taxShare = billRecipient === 0 ? 0 : (Math.round(100*(props.bill.tax * billRecipientShare))/100)
     // const gratuityShare = billRecipient === 0 ? 0 : (Math.round(100*(props.bill.gratuity * billRecipientShare))/100)
     
     return (
@@ -18,7 +18,7 @@ const Totals = (props) => {
             </li>
             <li className={styles.totals}>
                 <span>Tax:</span>
-                <span className={styles.spanCenter}>${taxShare}</span>
+                <span className={styles.spanCenter}>${billRecipient.tax}</span>
 
             </li>
             <li className={styles.totals}>

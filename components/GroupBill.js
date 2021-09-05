@@ -21,20 +21,22 @@ const GroupBill = (props) => {
     const [billRecipients, setBillRecipients] = useState(bill.bill_recipients)//this is people
 
     useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            axios({ method: 'patch', 
-            url: `http://localhost:3000/api/bills/${bill.id}`, 
-            data: {"tax": taxRate},
-            headers: {
-              Authorization: cookies.token
-            }
-        }).then(response => setBill(response.data))
-            // props.updateBill(tax)
-        //   console.log(tax)
-          // Send Axios request here
-        }, 1000)
-    
-        return () => clearTimeout(delayDebounceFn)
+        if (taxRate) {
+            const delayDebounceFn = setTimeout(() => {
+                axios({ method: 'patch', 
+                url: `http://localhost:3000/api/bills/${bill.id}`, 
+                data: {"tax": taxRate},
+                headers: {
+                  Authorization: cookies.token
+                }
+            }).then(response => {
+                setBill(response.data)
+                setBillRecipients(response.data.bill_recipients)
+            })
+            }, 1000)
+        
+            return () => clearTimeout(delayDebounceFn)
+        }
     }, [taxRate])
 
     
@@ -99,16 +101,20 @@ const GroupBill = (props) => {
         })
     }
 
-
-    const updateTax = async (tax) => {
-        const response = await axios({ method: 'patch', 
-            url: `http://localhost:3000/api/bills/${billId}`,
-            headers: {
-              Authorization: cookies.token
-            }
-        })
-        props.updateBillRecipients(response.data.bill_recipient)
+    const handleTaxChange = () => {
+        
     }
+
+
+    // const updateTax = async (tax) => {
+    //     const response = await axios({ method: 'patch', 
+    //         url: `http://localhost:3000/api/bills/${billId}`,
+    //         headers: {
+    //           Authorization: cookies.token
+    //         }
+    //     })
+    //     props.updateBillRecipients(response.data.bill_recipient)
+    // }
 
     let tabsUi = (
         <SimpleTabs 
@@ -122,7 +128,7 @@ const GroupBill = (props) => {
         <div className={styles.billTaxTipContainer}>
             <div className={styles.centerActionItems}>
                     <h4 className={styles.taxTipHeaders}>Tax:</h4>
-                    <input type="number" name="tax" placeholder={`$${taxRate}`} className={styles.formInputs} onChange={(e) => setTaxRate(e.target.value)} value={`$${taxRate}`}/>
+                    <input type="number" name="tax" className={styles.formInputs} onChange={(e) => setTaxRate(e.target.value)} value={taxRate}/>
                 </div>
             <div className={styles.centerActionItems}>
                 <h4 className={styles.taxTipHeaders}>Tip:</h4>
