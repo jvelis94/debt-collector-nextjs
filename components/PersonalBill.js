@@ -20,12 +20,10 @@ const PersonalBill = (props) => {
               Authorization: cookies.token
             }
         })
+        
+        setBillItems(prevState => prevState.filter(item => item.id != billItemId))
 
-        setBillItems(prevState => {
-            let removeItem = prevState.findIndex(el => el.id === billItemId)
-            let updatedBillItems = prevState.splice(removeItem, 1);
-            return [...updatedBillItems]
-        })
+        props.updateBillRecipients(response.data.bill_recipient)
     }
 
     const addBillItem = async (name, price, billRecipientId, billId) => {

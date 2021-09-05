@@ -8,7 +8,7 @@ const Totals = (props) => {
     const billRecipientShare = props.bill.subtotal > 0 ? billRecipient.subtotal / props.bill.subtotal : 0
     console.log(billRecipientShare)
     const taxShare = billRecipient === 0 ? 0 : (Math.round(100*(props.bill.tax * billRecipientShare))/100)
-    const gratuityShare = billRecipient === 0 ? 0 : (Math.round(100*(props.bill.gratuity * billRecipientShare))/100)
+    // const gratuityShare = billRecipient === 0 ? 0 : (Math.round(100*(props.bill.gratuity * billRecipientShare))/100)
     
     return (
         <ul>
@@ -23,7 +23,7 @@ const Totals = (props) => {
             </li>
             <li className={styles.totals}>
                 <span>Tip</span>
-                <span className={styles.spanCenter}>${gratuityShare}</span>
+                <span className={styles.spanCenter}>${Math.round(100*(billRecipient.gratuity))/100}</span>
             </li>
             <li className={`${styles.totals} ${styles.ultimateTotal}`}>
                 <span>Total</span>

@@ -97,14 +97,14 @@ const GroupBill = (props) => {
     let taxTipUi = (
         <div className={styles.billTaxTipContainer}>
             <div className={styles.centerActionItems}>
+                    <h4 className={styles.taxTipHeaders}>Tax:</h4>
+                    <input type="number" name="tax" placeholder={`$${taxRate}`} className={styles.formInputs} onChange={(e) => setTaxRate(e.target.value)} value={`$${taxRate}`}/>
+                </div>
+            <div className={styles.centerActionItems}>
                 <h4 className={styles.taxTipHeaders}>Tip:</h4>
                 <RemoveIcon onClick={decrementTipRate} />
                     {Math.round(gratuityRate*100)}%  
                 <AddIcon onClick={incrementTipRate} />
-            </div>
-            <div className={styles.centerActionItems}>
-                <h4 className={styles.taxTipHeaders}>Tax:</h4>
-                <input type="number" name="tax" placeholder={taxRate} className={styles.formInputs} onChange={(e) => setTaxRate(e.target.value)} value={taxRate}/>
             </div>
         </div>
     )
