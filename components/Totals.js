@@ -14,11 +14,11 @@ const Totals = (props) => {
         <ul>
             <li className={styles.totals}>
                 <span>Subtotal</span>
-                <span className={styles.spanCenter}>${billRecipient.subtotal}</span>
+                <span className={styles.spanCenter}>${Math.round(100*(billRecipient.subtotal))/100}</span>
             </li>
             <li className={styles.totals}>
                 <span>Tax:</span>
-                <span className={styles.spanCenter}>${billRecipient.tax}</span>
+                <span className={styles.spanCenter}>${Math.round(100*(billRecipient.tax))/100}</span>
 
             </li>
             <li className={styles.totals}>
@@ -27,7 +27,7 @@ const Totals = (props) => {
             </li>
             <li className={`${styles.totals} ${styles.ultimateTotal}`}>
                 <span>Total</span>
-                <span className={styles.spanCenter}>${billRecipient.total_owes}</span>
+                <span className={styles.spanCenter}>${Math.round(100*(billRecipient.total_owes))/100}</span>
             </li>
         </ul>
     )
