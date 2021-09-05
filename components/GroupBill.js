@@ -57,11 +57,35 @@ const GroupBill = (props) => {
 
 
     const incrementTipRate = () => {
-        setGratuityRate(prevState => prevState += 0.01)
+        console.log('increasing tip')
+        const newGratuityRate = gratuityRate + 0.01
+        setGratuityRate(newGratuityRate)
+        axios({ method: 'patch', 
+            url: `http://localhost:3000/api/bills/${bill.id}`, 
+            data: {"gratuity": newGratuityRate},
+            headers: {
+              Authorization: cookies.token
+            }
+        }).then(response => {
+            setBill(response.data)
+            setBillRecipients(response.data.bill_recipients)
+        })
     }
 
     const decrementTipRate = () => {
-        setGratuityRate(prevState => prevState -= 0.01)
+        console.log('increasing tip')
+        const newGratuityRate = gratuityRate - 0.01
+        setGratuityRate(newGratuityRate)
+        axios({ method: 'patch', 
+            url: `http://localhost:3000/api/bills/${bill.id}`, 
+            data: {"gratuity": newGratuityRate},
+            headers: {
+              Authorization: cookies.token
+            }
+        }).then(response => {
+            setBill(response.data)
+            setBillRecipients(response.data.bill_recipients)
+        })
     }
 
     const updateBillRecipients = (recipient) => {
