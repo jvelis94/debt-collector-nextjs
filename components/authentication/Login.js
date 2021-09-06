@@ -14,7 +14,11 @@ const Login = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         await ctx.handleAppAccess("login", emailRef.current.value, passwordRef.current.value)
-        router.push('/bills')
+        if (window.history.length > 1 && document.referrer.indexOf(window.location.host) !== -1) {
+            router.back();
+        } else {
+            router.push('/bills')
+        }
     }
 
     return (
