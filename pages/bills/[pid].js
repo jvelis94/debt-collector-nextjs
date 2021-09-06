@@ -5,12 +5,8 @@ import GroupBill from '../../components/GroupBill';
 
 const BillShow = (props) => {
     const [cookies, setCookie, removeCookie] = useCookies([]);
-    // console.log(cookies)
     const bill = props.bill
     console.log(bill)
-
-    
-    // removeCookie("random cookie", { path: "/" })
     
     return (
         <div>
@@ -33,8 +29,17 @@ export async function getServerSideProps(context) {
     else {
         const response = await axios.get(`http://localhost:3000/api/bills/${context.query.pid}`, { headers: {'Authorization': token}})
         const data = response.data
-        return {
-          props: { bill: data }
+        if (data.message === "unauthorized") {
+            return {
+                redirect: {
+                destination: '/bills',
+                },
+            }
+        }
+        else {
+            return {
+                props: { bill: data }
+            }
         }
     }
   
