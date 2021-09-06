@@ -9,10 +9,11 @@ const AuthenticationContext = React.createContext({
 
 
 export const AuthenticationContextProvider = (props) => {
+    console.log(`${process.env.API_URL}/users/sign_in`)
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const loginUrl = "http://localhost:3000/users/sign_in"
-    const registerUrl = "http://localhost:3000/users"
-    const logoutUrl = "http://localhost:3000/users/sign_out"
+    const loginUrl = `${process.env.API_URL}/users/sign_in`
+    const registerUrl = `${process.env.API_URL}/users`
+    const logoutUrl = `${process.env.API_URL}/users/sign_out`
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
     const handleAppAccess = async (type, email, password) => {

@@ -15,7 +15,7 @@ const PersonalBill = (props) => {
     const removeBillItem = async (billId, billItemId) => {
         console.log("in personalBill component")
         const response = await axios({ method: 'delete', 
-            url: `http://localhost:3000/api/bills/${billId}/bill_items/${billItemId}`,
+            url: `${process.env.API_URL}/api/bills/${billId}/bill_items/${billItemId}`,
             headers: {
               Authorization: cookies.token
             }
@@ -29,7 +29,7 @@ const PersonalBill = (props) => {
     const addBillItem = async (name, price, billRecipientId, billId) => {
         console.log(`adding ${name} to person`)
         const data = { "item_name": name, "price": price, "bill_id": billId, "bill_recipient_id": billRecipientId}
-        const response = await axios.post(`http://localhost:3000/api/bills/${billId}/bill_items`, data, { headers: {'Authorization': cookies.token}})
+        const response = await axios.post(`${process.env.API_URL}/api/bills/${billId}/bill_items`, data, { headers: {'Authorization': cookies.token}})
         const newBillItem = response.data
         console.log(response.data)
         setBillItems(prevState => [...prevState, newBillItem])

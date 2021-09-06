@@ -23,7 +23,7 @@ const CreateBill = () => {
         billNameRef.current.value === "" ? setBillNameError(true) : setBillNameError(false)
         const newBill = { bill: { bill_name: billNameRef.current.value } }
         try {
-            let response = await axios.post("http://localhost:3000/api/bills", newBill, requestHeaders)
+            let response = await axios.post("${process.env.API_URL}/api/bills", newBill, requestHeaders)
             let data = response.data
             console.log(data)
             router.push(`/bills/${data.id}`)

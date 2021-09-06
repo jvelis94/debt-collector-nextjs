@@ -27,7 +27,7 @@ export async function getServerSideProps(context) {
         },
     }
     else {
-        const response = await axios.get(`http://localhost:3000/api/bills/${context.query.pid}`, { headers: {'Authorization': token}})
+        const response = await axios.get(`${process.env.API_URL}/api/bills/${context.query.pid}`, { headers: {'Authorization': token}})
         const data = response.data
         if (data.message === "unauthorized") {
             return {

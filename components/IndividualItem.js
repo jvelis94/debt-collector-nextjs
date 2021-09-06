@@ -15,7 +15,7 @@ const IndividualItem = (props) => {
 
     const incrementQty = async () => {
         const response = await axios({ method: 'patch', 
-            url: `http://localhost:3000/api/bills/${billItem.bill_id}/bill_items/${billItem.id}/increment_quantity`,
+            url: `${process.env.API_URL}/api/bills/${billItem.bill_id}/bill_items/${billItem.id}/increment_quantity`,
             headers: {
               Authorization: cookies.token
             }
@@ -27,20 +27,17 @@ const IndividualItem = (props) => {
 
     const decrementQty = async () => {
         const response = await axios({ method: 'patch', 
-            url: `http://localhost:3000/api/bills/${billItem.bill_id}/bill_items/${billItem.id}/decrement_quantity`,
+            url: `${process.env.API_URL}/api/bills/${billItem.bill_id}/bill_items/${billItem.id}/decrement_quantity`,
             headers: {
               Authorization: cookies.token
             }
         })
         setQuantity(prevState => prevState -= 1)
         props.updateBillRecipients(response.data.bill_recipient)
-        // props.decrementItemQuantity(billItem.name, props.billRecipientId)
     }
 
     const removeItem = async () => {
         props.removeBillItem(billItem.bill_id, billItem.id)
-        // props.updateBillRecipients(response.data.bill_recipient)
-        // props.removeItemFromPerson(billItem.name, props.billRecipientId)
     }
 
     return (

@@ -24,7 +24,7 @@ const GroupBill = (props) => {
         if (taxRate) {
             const delayDebounceFn = setTimeout(() => {
                 axios({ method: 'patch', 
-                url: `http://localhost:3000/api/bills/${bill.id}`, 
+                url: `${process.env.API_URL}/api/bills/${bill.id}`, 
                 data: {"tax": taxRate},
                 headers: {
                   Authorization: cookies.token
@@ -50,7 +50,7 @@ const GroupBill = (props) => {
         else {
             const addPerson = {recipient_name: newPersonRef.current.value, bill_id: props.bill.id}
             const token = cookies.token
-            const response = await axios.post(`http://localhost:3000/api/bills/${props.bill.id}/bill_recipients`, addPerson, { headers: {'Authorization': token}})
+            const response = await axios.post(`${process.env.API_URL}/api/bills/${props.bill.id}/bill_recipients`, addPerson, { headers: {'Authorization': token}})
     
             let newPerson = response.data
             setBillRecipients(prevState => [...prevState, newPerson])
@@ -63,7 +63,7 @@ const GroupBill = (props) => {
         const newGratuityRate = gratuityRate + 0.01
         setGratuityRate(newGratuityRate)
         axios({ method: 'patch', 
-            url: `http://localhost:3000/api/bills/${bill.id}`, 
+            url: `${process.env.API_URL}/api/bills/${bill.id}`, 
             data: {"gratuity": newGratuityRate},
             headers: {
               Authorization: cookies.token
@@ -79,7 +79,7 @@ const GroupBill = (props) => {
         const newGratuityRate = gratuityRate - 0.01
         setGratuityRate(newGratuityRate)
         axios({ method: 'patch', 
-            url: `http://localhost:3000/api/bills/${bill.id}`, 
+            url: `${process.env.API_URL}/api/bills/${bill.id}`, 
             data: {"gratuity": newGratuityRate},
             headers: {
               Authorization: cookies.token
@@ -105,16 +105,6 @@ const GroupBill = (props) => {
         
     }
 
-
-    // const updateTax = async (tax) => {
-    //     const response = await axios({ method: 'patch', 
-    //         url: `http://localhost:3000/api/bills/${billId}`,
-    //         headers: {
-    //           Authorization: cookies.token
-    //         }
-    //     })
-    //     props.updateBillRecipients(response.data.bill_recipient)
-    // }
 
     let tabsUi = (
         <SimpleTabs 
