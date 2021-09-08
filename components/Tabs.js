@@ -13,7 +13,7 @@ const PeopleTabs = (props) => {
     <Tabs>
       <TabList>
         {sortedBillRecipients.map(billRecipient => (
-          <Tab key={billRecipient.id}>{billRecipient.recipient_name}</Tab>
+          <Tab key={billRecipient.id} style={{padding: "12px 16px"}}>{billRecipient.recipient_name}</Tab>
           ))}
       </TabList>
         {sortedBillRecipients.map(billRecipient => (
