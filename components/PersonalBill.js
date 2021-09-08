@@ -10,45 +10,28 @@ import { useCookies } from "react-cookie"
 const PersonalBill = (props) => {
     const billRecipient = props.billRecipient
     const [cookies, setCookie, removeCookie] = useCookies([]);
-    const [billItems, setBillItems] = useState(billRecipient.bill_items || [])
+    const billItems = billRecipient.bill_items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) || []
     
     const removeBillItem = async (billId, billItemId) => {
         console.log("in personalBill component")
         const response = await axios({ method: 'delete', 
             url: `${process.env.API_URL}/api/bills/${billId}/bill_items/${billItemId}`,
+            data: { bill_recipient_id: billRecipient.id },
             headers: {
               Authorization: cookies.token
             }
         })
-        
-        setBillItems(prevState => prevState.filter(item => item.id != billItemId))
-
-        props.updateBillRecipients(response.data.bill_recipient)
+        const newBill = response.data
+        props.updateBill(newBill)
     }
 
     const addBillItem = async (name, price, billRecipientId, billId) => {
         console.log(`adding ${name} to person`)
         const data = { "item_name": name, "price": price, "bill_id": billId, "bill_recipient_id": billRecipientId}
         const response = await axios.post(`${process.env.API_URL}/api/bills/${billId}/bill_items`, data, { headers: {'Authorization': cookies.token}})
-        const newBillItem = response.data
-        console.log(response.data)
-        setBillItems(prevState => [...prevState, newBillItem])
-        props.updateBillRecipients(response.data.bill_recipient)
+        const newBill = response.data
+        props.updateBill(newBill)
     }
-
-    // const updateRecipientTotals = (billRecipient, billRecipientIndex, price, type="add") => {
-    //     type ==="add" ? billRecipient['subtotal'] += parseFloat(parseInt(price)) : billRecipient['subtotal'] -= parseFloat(parseInt(price))
-    //     billRecipient['tax'] = Math.round(100*(billRecipient['subtotal']) * taxRate)/100
-    //     billRecipient['tip'] = Math.round(100*(billRecipient['subtotal']) * tipRate)/100
-    //     billRecipient['total'] = Math.round(100*(billRecipient['subtotal'] + billRecipient['tax'] + billRecipient['tip']))/100
-
-    //     setBillRecipients(prevState => {
-    //         let newState = [...prevState]
-    //         newState[personIndex] = billRecipient
-    //         return newState
-    //     })
-    // }
-
 
     return (
         <div>
@@ -77,6 +60,7 @@ const PersonalBill = (props) => {
                         removeItemFromPerson={props.removeItemFromPerson}
                         billRecipientId={billRecipient.id}
                         updateBillRecipients={props.updateBillRecipients}
+                        updateBill={props.updateBill}
                     />
                 ))}
             </div>

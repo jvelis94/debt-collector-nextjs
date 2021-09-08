@@ -6,7 +6,6 @@ import GroupBill from '../../components/GroupBill';
 const BillShow = (props) => {
     const [cookies, setCookie, removeCookie] = useCookies([]);
     const bill = props.bill
-    console.log(bill)
     
     return (
         <div>

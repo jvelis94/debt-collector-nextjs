@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import PersonalBill from "./PersonalBill"
 import styles from "./GroupBill.module.css"
-import SimpleTabs from "./Tabs"
+import PeopleTabs from "./Tabs"
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import TextField from '@material-ui/core/TextField';
@@ -37,6 +37,7 @@ const GroupBill = (props) => {
         
             return () => clearTimeout(delayDebounceFn)
         }
+
     }, [taxRate])
 
     
@@ -52,8 +53,10 @@ const GroupBill = (props) => {
             const token = cookies.token
             const response = await axios.post(`${process.env.API_URL}/api/bills/${props.bill.id}/bill_recipients`, addPerson, { headers: {'Authorization': token}})
     
-            let newPerson = response.data
-            setBillRecipients(prevState => [...prevState, newPerson])
+            let newBill = response.data
+            updateBill(newBill)
+            newPersonRef.current.value = ""
+            // setBillRecipients(prevState => [...prevState, newPerson])
         }
     }
 
@@ -101,16 +104,17 @@ const GroupBill = (props) => {
         })
     }
 
-    const handleTaxChange = () => {
-        
+    const updateBill = (bill) => {
+        setBill(bill)
+        setBillRecipients(bill.bill_recipients)
     }
 
-
     let tabsUi = (
-        <SimpleTabs 
+        <PeopleTabs 
             billRecipients={billRecipients} 
             updateBillRecipients={updateBillRecipients}
             bill={bill}
+            updateBill={updateBill}
         />
     )
 

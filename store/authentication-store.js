@@ -9,7 +9,6 @@ const AuthenticationContext = React.createContext({
 
 
 export const AuthenticationContextProvider = (props) => {
-    console.log(`${process.env.API_URL}/users/sign_in`)
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const loginUrl = `${process.env.API_URL}/users/sign_in`
     const registerUrl = `${process.env.API_URL}/users`
@@ -17,7 +16,6 @@ export const AuthenticationContextProvider = (props) => {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
     const handleAppAccess = async (type, email, password) => {
-        console.log(type)
         const accessUrl = type === "login" ? loginUrl : registerUrl
         const user = { "user": { "email": email, "password": password }}
         try {

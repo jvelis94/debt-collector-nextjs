@@ -1,87 +1,38 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+
+
+import dynamic from 'next/dynamic'
+const Tabs = dynamic(import('react-tabs').then(mod => mod.Tabs), { ssr: false }) // disable ssr
+import { Tab, TabList, TabPanel } from 'react-tabs'
+// import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 import PersonalBill from './PersonalBill';
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={0}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
-
-export default function SimpleTabs(props) {
-  const classes = useStyles();
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs style={{backgroundColor: "#2999D4"}} value={value} onChange={handleChange} aria-label="simple tabs example">
-            {props.billRecipients.map(billRecipient => (
-                /* <Tab key={person.id-1} label={person.name} {...a11yProps(person.id-1)} /> */
-                <Tab key={billRecipient.id-1} label={billRecipient.recipient_name} {...a11yProps(billRecipient.id-1)} />
-            ))}
-        </Tabs>
-      </AppBar>
-      {props.billRecipients.map(billRecipient => (
-            <TabPanel value={value} index={billRecipient.id-1} key={billRecipient.id-1}>
-                <PersonalBill 
-                    key={billRecipient.id-1} 
-                    billRecipient={billRecipient} 
-                    addItemToPerson={props.addItemToPerson}
-                    incrementItemQuantity={props.incrementItemQuantity}
-                    decrementItemQuantity={props.decrementItemQuantity}
-                    removeItemFromPerson={props.removeItemFromPerson}
-                    eliminateTax={props.eliminateTax}
-                    addTax={props.addTax}
-                    updateBillRecipients={props.updateBillRecipients}
-                    bill={props.bill}
-                />
-            </TabPanel>
+const PeopleTabs = (props) => (
+  <Tabs>
+    <TabList>
+      {props.bill.bill_recipients.map(billRecipient => (
+        <Tab key={billRecipient.id}>{billRecipient.recipient_name}</Tab>
         ))}
-    </div>
-  );
-}
+    </TabList>
+    {props.bill.bill_recipients.map(billRecipient => (
+        <TabPanel key={billRecipient.id}>
+            <PersonalBill 
+                key={billRecipient.id} 
+                billRecipient={billRecipient} 
+                addItemToPerson={props.addItemToPerson}
+                incrementItemQuantity={props.incrementItemQuantity}
+                decrementItemQuantity={props.decrementItemQuantity}
+                removeItemFromPerson={props.removeItemFromPerson}
+                eliminateTax={props.eliminateTax}
+                addTax={props.addTax}
+                updateBillRecipients={props.updateBillRecipients}
+                bill={props.bill}
+                updateBill={props.updateBill}
+            />
+        </TabPanel>
+        ))}
+    
+  </Tabs>
+);
+
+export default PeopleTabs

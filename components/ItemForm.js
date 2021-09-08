@@ -15,7 +15,6 @@ const ItemForm = (props) => {
         }
         setNewItemError(false)
         props.addBillItem(nameRef.current.value, priceRef.current.value, billRecipient.id, billRecipient.bill_id)
-        // props.addItemToPerson(nameRef.current.value, priceRef.current.value, props.personId)
         nameRef.current.value = ""
         priceRef.current.value = ""
     }
