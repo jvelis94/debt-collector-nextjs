@@ -27,16 +27,18 @@ const IndividualItem = (props) => {
     }
 
     const decrementQty = async () => {
-        const response = await axios({ method: 'patch', 
-            url: `${process.env.API_URL}/api/bills/${billItem.bill_id}/bill_items/${billItem.id}/decrement_quantity`,
-            data: { bill_recipient_id: props.billRecipientId },
-            headers: {
-              Authorization: cookies.token
-            }
-        })
-        setQuantity(prevState => prevState -= 1)
-        const newBill = response.data
-        props.updateBill(newBill)
+        if (quantity > 1) {
+            const response = await axios({ method: 'patch', 
+                url: `${process.env.API_URL}/api/bills/${billItem.bill_id}/bill_items/${billItem.id}/decrement_quantity`,
+                data: { bill_recipient_id: props.billRecipientId },
+                headers: {
+                  Authorization: cookies.token
+                }
+            })
+            setQuantity(prevState => prevState -= 1)
+            const newBill = response.data
+            props.updateBill(newBill)
+        }
     }
 
     const removeItem = async () => {
@@ -49,7 +51,7 @@ const IndividualItem = (props) => {
             <h4 style={{textIndent: "4px"}}>{billItem.item_name}</h4>
             <h4 className={styles.centerMoneyQuantity}>
                 <div className={styles.centerActionItems}>
-                    <RemoveIcon onClick={decrementQty} color={quantity === 1 ? 'disabled' : 'inherit'} />
+                    <RemoveIcon onClick={decrementQty} color={quantity === 1 ? 'disabled' : 'inherit'} disabled={quantity === 1 ? true : false} />
                     {quantity}
                     <AddIcon onClick={incrementQty}/>
                 </div>
