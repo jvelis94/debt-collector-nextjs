@@ -18,7 +18,7 @@ const GroupBill = (props) => {
     const newPersonRef = useRef()
     const [newPersonError, setNewPersonError] = useState(false)
     const [addPersonPlaceholder, setAddPersonPlaceholder] = useState("add new person")
-    const [billRecipients, setBillRecipients] = useState(bill.bill_recipients)//this is people
+    const [billRecipients, setBillRecipients] = useState(bill.bill_recipients || [])//this is people
 
     useEffect(() => {
         if (taxRate) {
@@ -111,7 +111,7 @@ const GroupBill = (props) => {
 
     let tabsUi = (
         <PeopleTabs 
-            billRecipients={billRecipients} 
+            billRecipients={billRecipients}
             updateBillRecipients={updateBillRecipients}
             bill={bill}
             updateBill={updateBill}

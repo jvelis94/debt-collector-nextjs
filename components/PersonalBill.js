@@ -16,12 +16,13 @@ const PersonalBill = (props) => {
         console.log("in personalBill component")
         const response = await axios({ method: 'delete', 
             url: `${process.env.API_URL}/api/bills/${billId}/bill_items/${billItemId}`,
-            data: { bill_recipient_id: billRecipient.id },
+            data: { bill_recipient_id: billRecipient.id, bill_id: billId },
             headers: {
               Authorization: cookies.token
             }
         })
         const newBill = response.data
+        console.log(newBill)
         props.updateBill(newBill)
     }
 
