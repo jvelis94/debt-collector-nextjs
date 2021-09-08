@@ -1,0 +1,34 @@
+.billContainer {
+    padding: 16px;
+    box-shadow: 0 0 5px #c5c5c5;
+    width: 90%;
+    margin: 12px auto;
+    border-radius: 10px;
+}
+
+.billRecipientBtnsContainer {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.billRecipientBtns {
+    padding: 8px 16px;
+    border: 1px solid #2999D4;
+    border-radius: 10px;
+    background-color:aliceblue;
+    color: #2999D4;
+    font-weight: bold;
+    margin: 0px 4px;
+}
+
+.headerSpacing {
+    margin-top: 0px;
+    margin-bottom: 16px;
+}
+
+.dateCreated {
+    font-size: small;
+    text-align: right;
+}

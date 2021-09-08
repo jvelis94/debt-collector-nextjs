@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useCookies } from 'react-cookie';
 import axios from 'axios'
+import BillIndexContainer from "../../components/BillIndexContainer";
+import NewBillBtn from "../../components/NewBillBtn";
 
 const Bills = (props) => {
     const [cookies, setCookie, removeCookie] = useCookies([]);
@@ -17,18 +19,10 @@ const Bills = (props) => {
 
     return (
         <div>
-            <button>
-                <Link href="/bills/create-bill">
-                    New Bill
-                </Link>
-            </button>
-            <div>
-                {bills.map(bill => (
-                    <div key={bill.id}>
-                        <h1>{bill.bill_name}</h1>
-                    </div>
-                ))}
-            </div>
+            <NewBillBtn />
+            {props.bills.map(bill => (
+                <BillIndexContainer key={bill.id} bill={bill} />
+            ))}
         </div>
     )
 }
