@@ -10,9 +10,10 @@ const Register = (props) => {
     const passwordRef = useRef()
     // const passwordConfirmationRef = useRef()
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        ctx.handleAppAccess("register", emailRef.current.value, passwordRef.current.value)
+        await ctx.handleAppAccess("register", emailRef.current.value, passwordRef.current.value)
+        router.push('/bills')
     }
     
 

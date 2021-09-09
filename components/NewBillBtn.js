@@ -2,13 +2,13 @@ import Link from 'next/link'
 import styles from './NewBillBtn.module.css'
 
 const NewBillBtn = () => (
-    <div className={styles.newBtnContainer}>
-        <button className={styles.newBtn}>
-            <Link href="/bills/create-bill">
-                New Bill
+        <div className={styles.newBtnContainer}>
+            <Link href="/bills/create-bill" passHref >
+                <button className={styles.newBtn}>
+                        New Bill
+                </button>
             </Link>
-        </button>
-    </div>
+        </div>
 )
 
 export default NewBillBtn
