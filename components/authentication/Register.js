@@ -3,11 +3,13 @@ import Button from '@material-ui/core/Button';
 import styles from './AccessApp.module.css'
 import { useContext, useRef } from 'react';
 import AuthenticationContext from '../../store/authentication-store';
+import { useRouter } from 'next/router'
 
 const Register = (props) => {
     const ctx = useContext(AuthenticationContext)
     const emailRef = useRef()
     const passwordRef = useRef()
+    const router = useRouter()
 
 
     const handleSubmit = async (e) => {
