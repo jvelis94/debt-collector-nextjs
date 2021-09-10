@@ -119,6 +119,7 @@
   }
 
   .container {
-    align-items: stretch;
+    width: 75%;
+    margin: 0 auto;
   }
 }

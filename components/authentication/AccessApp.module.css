@@ -36,6 +36,8 @@
 @media (max-width: 768px) {
     .root {
         border-radius: 0px;
+        height: 100vh;
+        box-shadow: none;
     }
 
     .headerColorAndBorders {
