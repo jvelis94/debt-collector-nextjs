@@ -38,11 +38,10 @@ const PersonalBill = (props) => {
         <div>
             <div className={styles.personalBillContainer}>
                 <div className={styles.nameAndShareDiv}>
-                    {/* <h1>{person.name}</h1> */}
                     <h1>{billRecipient.recipient_name}</h1>
                     {billItems.length > 0 && <ShareBill billRecipient={billRecipient} />}
                 </div>
-                <ItemForm addItemToPerson={props.addItemToPerson} billRecipient={billRecipient} addBillItem={addBillItem} />
+                <ItemForm billRecipient={billRecipient} addBillItem={addBillItem} />
             </div>
             <div className={styles.billDetailsContainer}>
                 <div className={styles.itemsHeaders}>
@@ -55,17 +54,13 @@ const PersonalBill = (props) => {
                     <IndividualItem
                         key={`${billRecipient.id}${billItem.item_name}`}
                         billItem={billItem} 
-                        incrementItemQuantity={props.incrementItemQuantity}
-                        decrementItemQuantity={props.decrementItemQuantity}
                         removeBillItem = {removeBillItem}
-                        removeItemFromPerson={props.removeItemFromPerson}
                         billRecipientId={billRecipient.id}
-                        updateBillRecipients={props.updateBillRecipients}
                         updateBill={props.updateBill}
                     />
                 ))}
             </div>
-            <Totals billRecipient={billRecipient} eliminateTax={props.eliminateTax} addTax={props.addTax} bill={props.bill}/>
+            <Totals billRecipient={billRecipient} bill={props.bill}/>
 
         </div>
     )

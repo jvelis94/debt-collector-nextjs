@@ -20,14 +20,7 @@ const PeopleTabs = (props) => {
           <TabPanel key={billRecipient.id}>
               <PersonalBill 
                   key={billRecipient.id} 
-                  billRecipient={billRecipient} 
-                  addItemToPerson={props.addItemToPerson}
-                  incrementItemQuantity={props.incrementItemQuantity}
-                  decrementItemQuantity={props.decrementItemQuantity}
-                  removeItemFromPerson={props.removeItemFromPerson}
-                  eliminateTax={props.eliminateTax}
-                  addTax={props.addTax}
-                  updateBillRecipients={props.updateBillRecipients}
+                  billRecipient={billRecipient}
                   bill={props.bill}
                   updateBill={props.updateBill}
               />

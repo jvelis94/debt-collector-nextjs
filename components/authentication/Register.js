@@ -8,7 +8,7 @@ const Register = (props) => {
     const ctx = useContext(AuthenticationContext)
     const emailRef = useRef()
     const passwordRef = useRef()
-    // const passwordConfirmationRef = useRef()
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -25,9 +25,6 @@ const Register = (props) => {
             <div className={styles.inputContainer}>
                 <TextField id="outlined-basic" label="Password" type="password" variant="outlined" inputRef={passwordRef} />
             </div>
-            {/* <div className={styles.inputContainer}>
-                <TextField id="outlined-basic" label="Confirm Password" type="password" variant="outlined" inputRef={passwordConfirmationRef} />
-            </div> */}
             <div className={styles.inputContainer}>
                 <Button variant="contained" color="primary" type="submit" className={styles.submitBtn}>
                     Register

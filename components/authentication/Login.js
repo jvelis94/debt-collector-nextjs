@@ -14,7 +14,6 @@ const Login = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         await ctx.handleAppAccess("login", emailRef.current.value, passwordRef.current.value)
-
         router.push('/bills')
     }
 

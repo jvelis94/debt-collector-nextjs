@@ -56,7 +56,6 @@ const GroupBill = (props) => {
             let newBill = response.data
             updateBill(newBill)
             newPersonRef.current.value = ""
-            // setBillRecipients(prevState => [...prevState, newPerson])
         }
     }
 
@@ -93,17 +92,6 @@ const GroupBill = (props) => {
         })
     }
 
-    const updateBillRecipients = (recipient) => {
-        const recipientIndex = billRecipients.findIndex(person => person.id === recipient.id)
-        const recipientBillItems = billRecipients[recipientIndex]['bill_items']
-        recipient['bill_items'] = recipientBillItems
-        setBillRecipients(prevState => {
-            const updatedRecipients = [...prevState]
-            updatedRecipients[recipientIndex] = recipient
-            return [...updatedRecipients]
-        })
-    }
-
     const updateBill = (bill) => {
         setBill(bill)
         setBillRecipients(bill.bill_recipients)
@@ -112,7 +100,6 @@ const GroupBill = (props) => {
     let tabsUi = (
         <PeopleTabs 
             billRecipients={billRecipients}
-            updateBillRecipients={updateBillRecipients}
             bill={bill}
             updateBill={updateBill}
         />

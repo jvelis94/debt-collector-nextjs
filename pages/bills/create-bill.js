@@ -27,7 +27,6 @@ const CreateBill = () => {
             let data = response.data
             console.log(data)
             router.push(`/bills/${data.id}`)
-            // setBill({id: data.id, bill_name: data.bill_name})
         } catch (error) {
             console.error(error)
         }           
