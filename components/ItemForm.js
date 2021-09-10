@@ -29,7 +29,8 @@ const ItemForm = (props) => {
                 ref={nameRef} 
             />    
             <input 
-                type="number" 
+                type="number"
+                step="any"
                 name="price" 
                 placeholder="20" 
                 className={`${styles.formInputs} ${newItemError ? styles.inputError : ""}`}

@@ -5,8 +5,8 @@ const ShareBill = (props) => {
     const billRecipient = props.billRecipient
 
     // let itemsText = person['items'].map(item => `${item.name}($${item.price * item.qty})`).join(", ")
-    let itemsText = billRecipient.bill_items.map(billItem => `${billItem.item_name}($${billItem.price * billItem.quantity})`).join(", ")
-    let textBox = `Hey ${billRecipient.recipient_name}, your breakdown for the bill is: ${itemsText}; total after tax and tip is $${billRecipient.total_owes}`
+    let itemsText = billRecipient.bill_items.map(billItem => `${billItem.item_name}($${billItem.price * billItem.quantity})`).join("\n")
+    let textBox = `Hey ${billRecipient.recipient_name}, your breakdown for the bill is:\n${itemsText}\nTotal after tax and tip is $${Math.round(100*(billRecipient.total_owes))/100}`
     // let textBox = `Hey ${person.name}, your breakdown for the bill is: ${itemsText}; total after tax and tip is $${props.person.total}`
 
     const handleOnClick = () => {
