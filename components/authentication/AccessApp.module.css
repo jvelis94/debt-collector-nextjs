@@ -2,11 +2,6 @@
     margin: 12px;
 }
 
-/* .formContainer {
-    padding: 100px;
-} */
-
-
 .root {
     /* flex-grow: 1; */
     border-radius: 10px;
@@ -37,3 +32,14 @@
     width: 100%;
     background-color: #2999D4 !important;
 }
+
+@media (max-width: 768px) {
+    .root {
+        border-radius: 0px;
+    }
+
+    .headerColorAndBorders {
+        border-top-right-radius: 0px;
+        border-top-left-radius: 0px;
+    }
+  }
