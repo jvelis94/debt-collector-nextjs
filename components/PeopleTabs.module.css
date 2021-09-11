@@ -6,6 +6,7 @@
 .tabs {
     display: flex;
     overflow-x: auto;
+    text-align: center;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -42,6 +43,9 @@
     background-color: aliceblue;
     border-top-right-radius: 35px;
     border-top-left-radius: 35px;
-    
     height: 100%;
+}
+
+.btnContainer {
+    text-align: center;
 }
