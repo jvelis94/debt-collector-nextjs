@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 1fr 7fr 2fr 2fr;
     align-items: center;
-    background-color: white;
+    background-color: aliceblue;
     border-radius: 20px;
     margin: 12px;
 }

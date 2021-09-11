@@ -32,6 +32,7 @@ const PersonalBill = (props) => {
         const response = await axios.post(`${process.env.API_URL}/api/bills/${billId}/bill_items`, data, { headers: {'Authorization': cookies.token}})
         const newBill = response.data
         props.updateBill(newBill)
+        // props.setActivePerson(billRecipient)
     }
 
     const billSummaryUi = (
