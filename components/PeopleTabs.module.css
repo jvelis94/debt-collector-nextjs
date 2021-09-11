@@ -1,0 +1,46 @@
+.tabContainer {
+    color:black
+}
+
+.tabs {
+    display: flex;
+    overflow-x: auto;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.tabs::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+.tabs {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+.tabBtn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    margin: 8px;
+    background-color: aliceblue;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.activeTab {
+    background-color: #2999D4;
+    color: white
+}
+
+.tabContent {
+    margin-top: 12px;
+    background-color: aliceblue;
+    border-top-right-radius: 35px;
+    border-top-left-radius: 35px;
+    display:flex;
+    flex-direction:column;
+    height: 100%;
+}

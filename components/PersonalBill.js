@@ -34,16 +34,10 @@ const PersonalBill = (props) => {
         props.updateBill(newBill)
     }
 
-    return (
-        <div>
-            <div className={styles.personalBillContainer}>
-                <div className={styles.nameAndShareDiv}>
-                    <h1>{billRecipient.recipient_name}</h1>
-                    {billItems.length > 0 && <ShareBill billRecipient={billRecipient} />}
-                </div>
-                <ItemForm billRecipient={billRecipient} addBillItem={addBillItem} />
-            </div>
+    const billSummaryUi = (
+        <>
             <div className={styles.billDetailsContainer}>
+                {billItems.length === 0  && <h4>Add some items</h4>}
                 <div className={styles.itemsHeaders}>
                     <h4> </h4>
                     <h4 style={{textIndent: "4px"}}>Item</h4>
@@ -60,7 +54,25 @@ const PersonalBill = (props) => {
                     />
                 ))}
             </div>
-            <Totals billRecipient={billRecipient} bill={props.bill}/>
+            <div>
+                <Totals billRecipient={billRecipient} bill={props.bill}/>
+            </div>
+        </>
+    )
+
+    return (
+        <div>
+            <div className={styles.personalBillContainer}>
+                <div className={styles.nameAndShareDiv}>
+                    <h1>{billRecipient.recipient_name}</h1>
+                    {billItems.length > 0 && <ShareBill billRecipient={billRecipient} />}
+                </div>
+                <ItemForm billRecipient={billRecipient} addBillItem={addBillItem} />
+            </div>
+
+            {billItems.length === 0 && <h4 style={{textAlign:"center"}}>Add some items to see a breakdown</h4>}
+            {billItems.length > 0 && billSummaryUi}
+            
 
         </div>
     )

@@ -47,7 +47,7 @@ const IndividualItem = (props) => {
 
     return (
         <div className={styles.itemFlex}>
-            <ClearIcon style={{marginLeft: "4px"}} onClick={removeItem}/>
+            <ClearIcon style={{marginLeft: "4px", fontSize: '1.3rem', color: 'red'}} onClick={removeItem}/>
             <h4 style={{textIndent: "4px"}}>{billItem.item_name}</h4>
             <h4 className={styles.centerMoneyQuantity}>
                 <div className={styles.centerActionItems}>

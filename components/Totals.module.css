@@ -1,6 +1,15 @@
+.totalsContainer {
+    padding: 12px;
+}
+
 .totals {
     display: grid;
     grid-template-columns: 10fr 2fr;
+    padding: 8px 0px;
+}
+
+.totals span:first-child {
+    text-indent: 16px;
 }
 
 .ultimateTotal {

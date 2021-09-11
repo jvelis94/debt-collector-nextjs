@@ -7,7 +7,7 @@ const Totals = (props) => {
     const billRecipient = props.billRecipient
     
     return (
-        <ul>
+        <ul className={styles.totalsContainer}>
             <li className={styles.totals}>
                 <span>Subtotal</span>
                 <span className={styles.spanCenter}>${Math.round(100*(billRecipient.subtotal))/100}</span>
