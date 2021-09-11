@@ -138,7 +138,6 @@ const GroupBill = (props) => {
     return (
         <>
             <div style={{textAlign: 'center'}}>
-                <img src='../split_logo.png' alt='logo' style={{width: '30%'}}/>
                 <h1>{props.bill.bill_name}</h1>
             </div>
 

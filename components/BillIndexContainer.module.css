@@ -11,6 +11,7 @@
     justify-content: left;
     align-items: center;
     margin-bottom: 8px;
+    flex-wrap: wrap;
 }
 
 .billRecipientBtns {
@@ -20,7 +21,7 @@
     background-color:aliceblue;
     color: #2999D4;
     font-weight: bold;
-    margin: 0px 4px;
+    margin: 4px;
 }
 
 .headerSpacing {

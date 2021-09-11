@@ -8,9 +8,7 @@ const BillShow = (props) => {
     const bill = props.bill
     
     return (
-        <div>
-            <GroupBill bill={bill} /> 
-        </div>
+        <GroupBill bill={bill} /> 
     )
 }
 
