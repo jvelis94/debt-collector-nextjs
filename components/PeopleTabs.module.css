@@ -1,5 +1,6 @@
 .tabContainer {
-    color:black
+    color:black;
+    height: 100%;
 }
 
 .tabs {
@@ -41,7 +42,6 @@
     background-color: aliceblue;
     border-top-right-radius: 35px;
     border-top-left-radius: 35px;
-    display:flex;
-    flex-direction:column;
+    
     height: 100%;
 }
