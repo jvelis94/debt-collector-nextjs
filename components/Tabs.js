@@ -16,13 +16,11 @@ const PeopleTabs = (props) => {
     <div className={styles.tabContainer}>
         <div className={styles.tabs}>
           {sortedBillRecipients.map(billRecipient => (
-            <div key={billRecipient.id} className={styles.btnContainer}>
-              <button onClick={() => setActivePerson(billRecipient)} 
-                key={billRecipient.id} 
-                className={`${styles.tabBtn} ${activePerson === billRecipient && styles.activeTab}`}
+            <div key={billRecipient.id} 
+              onClick={() => setActivePerson(billRecipient)}
+              className={`${styles.tabBtn} ${activePerson === billRecipient && styles.activeTab}`}
               >
               {billRecipient.recipient_name[0]}
-              </button>
             </div>
           ))}
       </div>
