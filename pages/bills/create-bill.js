@@ -28,7 +28,8 @@ const CreateBill = () => {
             console.log(data)
             router.push(`/bills/${data.id}`)
         } catch (error) {
-            console.error(error)
+            console.log('found an error')
+            // console.error(error)
         }           
     }
     

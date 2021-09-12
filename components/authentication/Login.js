@@ -13,8 +13,14 @@ const Login = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await ctx.handleAppAccess("login", emailRef.current.value, passwordRef.current.value)
-        router.push('/bills')
+        if (emailRef.current.value === "" || passwordRef.current.value === "") { return }
+        const response = await ctx.handleAppAccess("login", emailRef.current.value, passwordRef.current.value)
+        if (response.status === 200) {
+            router.push('/bills')
+        } else  {
+            router.push('/')
+            props.handleErrorMessage(response.data.error)
+        }
     }
 
     return (

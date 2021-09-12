@@ -10,7 +10,6 @@ const Bills = (props) => {
     const [cookies, setCookie, removeCookie] = useCookies([]);
     const router = useRouter()
     const bills = props.bills
-    console.log(bills)
 
     useEffect(() => {
         if (!cookies.token) { router.push('/') }

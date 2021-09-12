@@ -14,8 +14,15 @@ const Register = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await ctx.handleAppAccess("register", emailRef.current.value, passwordRef.current.value)
-        router.push('/bills')
+        if (emailRef.current.value === "" || passwordRef.current.value === "") { return }
+        const response = await ctx.handleAppAccess("register", emailRef.current.value, passwordRef.current.value)
+        if (response.status === 200) {
+            router.push('/bills')
+        } else  {
+            router.push('/')
+            props.handleErrorMessage("this account already exists, please login instead")
+        }
+        
     }
     
 

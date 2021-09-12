@@ -33,6 +33,16 @@
     background-color: #2999D4 !important;
 }
 
+.error {
+    float: right;
+    padding: 12px;
+    background-color: lightpink;
+    color: red;
+    position: absolute;
+    right: 0;
+    top: 75px;
+}
+
 @media (max-width: 768px) {
     .root {
         border-radius: 0px;
