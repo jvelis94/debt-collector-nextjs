@@ -32,13 +32,8 @@ export const AuthenticationContextProvider = (props) => {
             })
             return response
         } catch (error) {
-            return error.response
-            // if (error.response.status === 401) {
-            //     console.log(error.response.data.error)
-            // } else {
-            //     console.log(error.response)
-            // }
-            // router.push('/')
+            let response = error.response === "" ? "please try again" : error.response
+            return response
         }
     }
 

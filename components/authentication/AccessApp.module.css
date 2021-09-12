@@ -41,6 +41,7 @@
     position: absolute;
     right: 0;
     top: 75px;
+    border-radius: 10px;
 }
 
 @media (max-width: 768px) {
