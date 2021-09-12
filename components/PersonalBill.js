@@ -35,6 +35,15 @@ const PersonalBill = (props) => {
         // props.setActivePerson(billRecipient)
     }
 
+    const handleBillPaid = async () => {
+        if (!billRecipient.is_paid) {
+            const data = { "bill_recipient_id": billRecipient.id}
+            const response = await axios.patch(`${process.env.API_URL}/api/bills/${billRecipient.bill_id}/bill_recipients/${billRecipient.id}/mark_is_paid`, data, { headers: {'Authorization': cookies.token}})
+            const newBill = response.data
+            props.updateBill(newBill)
+        }
+    }
+
     const billSummaryUi = (
         <>
             <div className={styles.billDetailsContainer}>
@@ -65,7 +74,17 @@ const PersonalBill = (props) => {
         <div>
             <div className={styles.personalBillContainer}>
                 <div className={styles.nameAndShareDiv}>
-                    <h1>{billRecipient.recipient_name}</h1>
+                    <div className={styles.nameAndPaidDiv}>
+                        <h1>{billRecipient.recipient_name} </h1>
+                        <small 
+                            className={styles.paidBox}
+                            style={{backgroundColor: billRecipient.is_paid ? "green" : "grey"}}
+                            onClick={handleBillPaid}
+                        >
+                        {billRecipient.is_paid ? "Paid" : "Mark paid"} 
+                            
+                        </small>
+                    </div>
                     {billItems.length > 0 && <ShareBill billRecipient={billRecipient} />}
                 </div>
                 <ItemForm billRecipient={billRecipient} addBillItem={addBillItem} />
