@@ -7,6 +7,8 @@ import { useState } from "react"
 import axios from 'axios'
 import { useCookies } from "react-cookie"
 import Link from 'next/link'
+import Image from 'next/image'
+import venmo from '../public/venmo.svg'
 
 const PersonalBill = (props) => {
     const billRecipient = props.billRecipient
@@ -86,9 +88,16 @@ const PersonalBill = (props) => {
                             
                         </small>
                     </div>
-                    <div>
+                    <div className={styles.nameAndShareDiv}>
                         {billItems.length > 0 && <ShareBill billRecipient={billRecipient} />}
-                        <Link href="venmo://pay?recipients">Venmo</Link>
+                        <Link href="venmo://pay?recipients" passHref>
+                            <Image 
+                                src={venmo}
+                                alt="venmo icon" 
+                                width={25}
+                                height={25}
+                            />
+                        </Link>
                     </div>
                 </div>
                 <ItemForm billRecipient={billRecipient} addBillItem={addBillItem} />
