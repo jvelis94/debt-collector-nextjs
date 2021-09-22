@@ -86,8 +86,10 @@ const PersonalBill = (props) => {
                             
                         </small>
                     </div>
-                    {billItems.length > 0 && <ShareBill billRecipient={billRecipient} />}
-                    <Link href="venmo://pay?recipients">Venmo</Link>
+                    <div>
+                        {billItems.length > 0 && <ShareBill billRecipient={billRecipient} />}
+                        <Link href="venmo://pay?recipients">Venmo</Link>
+                    </div>
                 </div>
                 <ItemForm billRecipient={billRecipient} addBillItem={addBillItem} />
             </div>
