@@ -6,6 +6,7 @@ import ShareBill from "./ShareBill"
 import { useState } from "react"
 import axios from 'axios'
 import { useCookies } from "react-cookie"
+import Link from 'next/link'
 
 const PersonalBill = (props) => {
     const billRecipient = props.billRecipient
@@ -86,6 +87,7 @@ const PersonalBill = (props) => {
                         </small>
                     </div>
                     {billItems.length > 0 && <ShareBill billRecipient={billRecipient} />}
+                    <Link href="venmo://pay?recipients">Venmo</Link>
                 </div>
                 <ItemForm billRecipient={billRecipient} addBillItem={addBillItem} />
             </div>

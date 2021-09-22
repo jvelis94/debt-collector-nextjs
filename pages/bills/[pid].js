@@ -16,12 +16,13 @@ const BillShow = (props) => {
 export async function getServerSideProps(context) {
     // Get external data from the file system, API, DB, etc.
     const token = context.req.cookies.token
-    if (!token)
+    if (!token) {
         return {
           redirect: {
             destination: '/',
             permanent: false,
-        },
+          },
+        }
     }
     else {
         const response = await axios.get(`${process.env.API_URL}/api/bills/${context.query.pid}`, { headers: {'Authorization': token}})

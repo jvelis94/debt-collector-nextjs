@@ -13,7 +13,6 @@ const PeopleTabs = (props) => {
     <Tabs className={styles.reactTabsContainer}>
       <TabList className={styles.reactTabsList}>
         {sortedBillRecipients.map(billRecipient => (
-          
             <Tab 
             className={styles.reactTabsTab}
             key={billRecipient.id} >{billRecipient.recipient_name[0]}</Tab>
